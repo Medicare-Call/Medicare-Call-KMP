@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "MediCareCall"
-include(":app")
-
+include(":composeApp")

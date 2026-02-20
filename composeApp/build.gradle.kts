@@ -1,0 +1,190 @@
+import java.util.Properties
+import org.jetbrains.compose.resources.ResourcesExtension
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ktorfit)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.google.services)
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    toolVersion = libs.versions.detekt.get()
+    config.setFrom(files("$rootDir/detekt-config.yml"))
+}
+
+kotlin {
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            // Compose Multiplatform
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+
+            // Navigation (KMP)
+            implementation(libs.navigation.compose)
+
+            // Lifecycle ViewModel (KMP)
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.lifecycle.runtime.compose)
+
+            // Ktor / Ktorfit
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktorfit.lib)
+            implementation(libs.ktorfit.converters.response)
+
+            // Koin
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+            // DataStore
+            implementation(libs.datastore)
+            implementation(libs.datastore.preferences)
+
+            // Kotlin libraries
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.coroutines.core)
+
+            // Koin annotations
+            implementation(libs.koin.annotations)
+        }
+
+        androidMain.dependencies {
+            // Ktor Android engine
+            implementation(libs.ktor.client.okhttp)
+
+            // Koin Android
+            implementation(libs.koin.android)
+
+            // Firebase
+            implementation(platform(libs.firebase.bom))
+            implementation(libs.google.firebase.analytics)
+            implementation(libs.firebase.messaging)
+
+            // AndroidX
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.core.splashscreen)
+            implementation(libs.androidx.core.ktx)
+        }
+
+        iosMain.dependencies {
+            // Ktor iOS engine
+            implementation(libs.ktor.client.darwin)
+        }
+    }
+}
+
+android {
+    namespace = "com.konkuk.medicarecall"
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "com.konkuk.medicarecall"
+        minSdk = 26
+        targetSdk = 36
+        versionCode = 10
+        versionName = "0.1.9"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties().apply {
+            val localPropertiesFile = project.rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                load(localPropertiesFile.inputStream())
+            }
+        }
+
+        buildConfigField("String", "BASE_URL", "\"${properties["base.url"] ?: ""}\"")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.konkuk.medicarecall.resources"
+    generateResClass = always
+}
+
+dependencies {
+    // Detekt formatting plugin
+    detektPlugins(libs.detekt.formatting)
+
+    // Koin KSP
+    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
+    add("kspAndroid", libs.koin.ksp.compiler)
+    add("kspIosX64", libs.koin.ksp.compiler)
+    add("kspIosArm64", libs.koin.ksp.compiler)
+    add("kspIosSimulatorArm64", libs.koin.ksp.compiler)
+}
+
+ksp {
+    arg("KOIN_DEFAULT_MODULE", "true")
+}
+
+// Make KSP-generated code from commonMain available to all source sets
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    jvmTarget = "11"
+}
