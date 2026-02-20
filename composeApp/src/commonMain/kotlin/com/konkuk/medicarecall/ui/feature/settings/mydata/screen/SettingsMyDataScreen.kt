@@ -34,6 +34,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_settings_back
 import com.konkuk.medicarecall.ui.common.util.formatDateToKorean
 import com.konkuk.medicarecall.ui.feature.settings.mydata.component.LogoutConfirmDialog

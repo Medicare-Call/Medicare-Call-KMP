@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_filledbowl
 import com.konkuk.medicarecall.ui.common.util.WeeklySummaryUtil
 import com.konkuk.medicarecall.ui.feature.statistics.viewmodel.WeeklySummaryUiState.WeeklyMealUiState

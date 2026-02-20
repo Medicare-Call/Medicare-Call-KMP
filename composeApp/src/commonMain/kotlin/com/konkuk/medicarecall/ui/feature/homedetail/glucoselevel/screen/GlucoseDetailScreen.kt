@@ -34,6 +34,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.domain.util.now
 import com.konkuk.medicarecall.ui.common.component.TopAppBar
 import com.konkuk.medicarecall.ui.feature.homedetail.glucoselevel.component.GlucoseGraph
@@ -261,7 +262,7 @@ fun GlucoseDetailScreenLayout(
             ) {
                 Spacer(modifier = Modifier.height(186.dp))
                 Image(
-                    painter = painterResource(id = Res.drawable.ic_no_record),
+                    painter = painterResource(Res.drawable.ic_no_record),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp),

@@ -23,6 +23,7 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.LocalMediCareCallShadowProvider
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
@@ -60,7 +61,7 @@ fun HomeSleepContainer(
                 Image(
                     modifier = Modifier
                         .size(24.dp),
-                    painter = painterResource(id = Res.drawable.ic_sleep),
+                    painter = painterResource(Res.drawable.ic_sleep),
                     contentDescription = "sleep icon",
                 )
                 Spacer(modifier = Modifier.width(4.dp))

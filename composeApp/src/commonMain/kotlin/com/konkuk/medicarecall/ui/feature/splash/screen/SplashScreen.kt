@@ -13,6 +13,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.bg_splash_new
 import com.konkuk.medicarecall.ui.feature.splash.viewmodel.SplashViewModel
 import com.konkuk.medicarecall.ui.model.NavigationDestination

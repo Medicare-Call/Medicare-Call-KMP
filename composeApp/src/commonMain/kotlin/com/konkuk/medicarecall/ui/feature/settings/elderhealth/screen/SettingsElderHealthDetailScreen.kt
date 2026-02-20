@@ -29,6 +29,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.common.component.IllnessInfoItem
 import com.konkuk.medicarecall.ui.common.component.MedInfoItem
@@ -69,7 +70,7 @@ fun SettingsElderHealthDetailScreen(
             title = "어르신 건강정보 설정",
             leftIcon = {
                 Icon(
-                    painter = painterResource(id = Res.drawable.ic_settings_back),
+                    painter = painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "go_back",
                     modifier = modifier
                         .size(24.dp)
@@ -243,7 +244,7 @@ private fun SettingsElderHealthDetailScreenPreview() {
                 title = "어르신 건강정보 설정",
                 leftIcon = {
                     Icon(
-                        painter = painterResource(id = Res.drawable.ic_settings_back),
+                        painter = painterResource(Res.drawable.ic_settings_back),
                         contentDescription = "go_back",
                         modifier = Modifier.size(24.dp),
                         tint = Color.Black,

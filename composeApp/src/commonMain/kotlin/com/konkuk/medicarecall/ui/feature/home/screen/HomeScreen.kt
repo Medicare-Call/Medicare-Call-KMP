@@ -47,6 +47,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.domain.model.ElderInfo
 import com.konkuk.medicarecall.domain.model.HomeSleep
 import com.konkuk.medicarecall.ui.common.component.NameBar
@@ -341,7 +342,7 @@ fun HomeScreenLayout(
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Image(
-                                            painter = painterResource(id = Res.drawable.char_medi),
+                                            painter = painterResource(Res.drawable.char_medi),
                                             contentDescription = "요약 아이콘",
                                         )
                                         Spacer(Modifier.width(8.dp))

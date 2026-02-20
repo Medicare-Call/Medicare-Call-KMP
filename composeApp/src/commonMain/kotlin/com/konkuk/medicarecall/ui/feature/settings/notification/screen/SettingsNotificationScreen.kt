@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
 import com.konkuk.medicarecall.domain.model.PushNotification
 import com.konkuk.medicarecall.ui.feature.settings.notification.component.SwitchButton
@@ -86,7 +87,7 @@ fun SettingsNotificationScreen(
             title = "푸시 알림 설정",
             leftIcon = {
                 Icon(
-                    painter = painterResource(id = Res.drawable.ic_settings_back),
+                    painter = painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "go_back",
                     modifier = Modifier
                         .size(24.dp)
@@ -187,7 +188,7 @@ private fun SettingsNotificationScreenPreview() {
                 title = "푸시 알림 설정",
                 leftIcon = {
                     Icon(
-                        painter = painterResource(id = Res.drawable.ic_settings_back),
+                        painter = painterResource(Res.drawable.ic_settings_back),
                         contentDescription = "go_back",
                         modifier = Modifier.size(24.dp),
                         tint = Color.Black,

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
 @Composable
@@ -43,7 +44,7 @@ fun CareCallFloatingButton(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter = painterResource(id = Res.drawable.ic_carecall),
+                painter = painterResource(Res.drawable.ic_carecall),
                 contentDescription = "Care Call",
                 tint = Color.White,
                 modifier = Modifier.size(20.dp),

@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
 
@@ -59,7 +60,7 @@ fun PersonalInfoCard(name: String, modifier: Modifier = Modifier, onClick: () ->
                 )
             }
             Icon(
-                painter = painterResource(id = Res.drawable.ic_arrow_right),
+                painter = painterResource(Res.drawable.ic_arrow_right),
                 contentDescription = "화살표 아이콘",
                 modifier = Modifier.size(28.dp),
                 tint = MediCareCallTheme.colors.gray2,

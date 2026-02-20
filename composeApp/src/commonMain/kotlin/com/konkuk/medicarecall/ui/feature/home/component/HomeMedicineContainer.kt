@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_pill_taken
 import com.konkuk.medicarecall.resources.ic_pill_uncheck
 import com.konkuk.medicarecall.resources.ic_pill_untaken

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_notification
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import org.jetbrains.compose.resources.painterResource

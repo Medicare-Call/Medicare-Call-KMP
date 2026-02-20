@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebSearch",
+      "Bash(.gradlew clean:*)",
+      "Bash(gradlew.bat clean:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(./gradlew assembleDebug:*)",
+      "Bash(./gradlew :composeApp:compileDebugKotlinAndroid:*)",
+      "Bash(xargs:*)",
+      "Bash(./gradlew:*)"
     ]
   }
 }

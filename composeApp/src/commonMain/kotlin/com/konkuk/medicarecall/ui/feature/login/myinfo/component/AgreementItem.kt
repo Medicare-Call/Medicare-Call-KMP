@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
 @Composable

@@ -17,6 +17,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.settings.notice.component.AnnouncementCard
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
 import com.konkuk.medicarecall.ui.feature.settings.notice.viewmodel.SettingsNoticeViewModel
@@ -45,7 +46,7 @@ fun SettingsNoticeScreen(
             title = "공지사항",
             leftIcon = {
                 Icon(
-                    painter = painterResource(id = Res.drawable.ic_settings_back),
+                    painter = painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "go_back",
                     modifier = modifier
                         .size(24.dp)
@@ -87,7 +88,7 @@ private fun SettingsNoticeScreenPreview() {
                 title = "공지사항",
                 leftIcon = {
                     Icon(
-                        painter = painterResource(id = Res.drawable.ic_settings_back),
+                        painter = painterResource(Res.drawable.ic_settings_back),
                         contentDescription = "go_back",
                         modifier = Modifier
                             .size(24.dp)

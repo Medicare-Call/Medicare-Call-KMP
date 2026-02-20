@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_emoji_bad
 import com.konkuk.medicarecall.resources.ic_emoji_good
 import com.konkuk.medicarecall.resources.ic_emoji_normal

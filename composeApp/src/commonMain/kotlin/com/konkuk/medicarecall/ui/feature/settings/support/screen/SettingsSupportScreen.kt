@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
@@ -39,7 +40,7 @@ fun SettingsSupportScreen(
             title = "고객센터",
             leftIcon = {
                 Icon(
-                    painter = painterResource(id = Res.drawable.ic_settings_back),
+                    painter = painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "go_back",
                     modifier = modifier
                         .size(24.dp)
@@ -55,7 +56,7 @@ fun SettingsSupportScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = Res.drawable.img_settings_center),
+                painter = painterResource(Res.drawable.img_settings_center),
                 modifier = modifier.size(80.dp),
                 contentDescription = "service_center",
             )

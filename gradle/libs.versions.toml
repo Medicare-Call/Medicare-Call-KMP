@@ -61,6 +61,7 @@ ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.r
 # Ktorfit
 ktorfit-lib = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-lib", version.ref = "ktorfit" }
 ktorfit-converters-response = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-response", version.ref = "ktorfit" }
+ktorfit-ksp = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-ksp", version.ref = "ktorfit" }
 
 # Koin
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }

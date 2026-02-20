@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.model.ElderSubscription
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
@@ -73,7 +74,7 @@ fun SubscribeCard(
         Spacer(modifier = modifier.weight(1f))
         Icon(
             contentDescription = "구독관리 자세히 보기 아이콘",
-            painter = painterResource(id = Res.drawable.ic_arrow_right),
+            painter = painterResource(Res.drawable.ic_arrow_right),
             modifier = modifier.size(28.dp),
             tint = MediCareCallTheme.colors.gray2,
         )

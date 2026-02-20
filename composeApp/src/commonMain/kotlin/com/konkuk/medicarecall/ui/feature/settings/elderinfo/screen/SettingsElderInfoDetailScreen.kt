@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.common.component.DefaultDropdown
 import com.konkuk.medicarecall.ui.common.component.DefaultTextField
@@ -90,7 +91,7 @@ fun SettingsElderInfoDetailScreen(
             title = screenTitle,
             leftIcon = {
                 Icon(
-                    painterResource(id = Res.drawable.ic_settings_back),
+                    painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "setting back",
                     modifier = modifier.clickable { onBack() },
                     tint = MediCareCallTheme.colors.black,

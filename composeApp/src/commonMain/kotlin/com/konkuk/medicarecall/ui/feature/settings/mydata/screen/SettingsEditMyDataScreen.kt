@@ -25,6 +25,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.common.component.DefaultTextField
 import com.konkuk.medicarecall.ui.common.component.GenderToggleButton
@@ -124,7 +125,7 @@ private fun SettingsEditMyDataLayout(
             title = "내 정보 설정",
             leftIcon = {
                 Icon(
-                    painterResource(id = Res.drawable.ic_settings_back),
+                    painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "setting back",
                     modifier = Modifier.clickable { onBackClick() },
                     tint = MediCareCallTheme.colors.black,

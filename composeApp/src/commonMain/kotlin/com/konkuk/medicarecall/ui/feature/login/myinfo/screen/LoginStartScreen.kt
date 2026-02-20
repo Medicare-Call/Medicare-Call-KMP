@@ -20,6 +20,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.bg_login_start_new
 import com.konkuk.medicarecall.resources.typo_intro
 import com.konkuk.medicarecall.resources.typo_main

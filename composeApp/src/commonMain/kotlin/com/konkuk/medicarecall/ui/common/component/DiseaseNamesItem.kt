@@ -13,7 +13,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material3.Text
+import androidx.compose.material3.Text
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
 @Composable

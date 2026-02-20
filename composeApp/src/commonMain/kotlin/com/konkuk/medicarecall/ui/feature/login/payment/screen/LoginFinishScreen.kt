@@ -17,9 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material3.Icon
-import androidx.wear.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.type.CTAButtonType
@@ -39,7 +40,7 @@ fun LoginFinishScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            painter = painterResource(id = Res.drawable.ic_complete),
+            painter = painterResource(Res.drawable.ic_complete),
             contentDescription = "complete",
             tint = Color.Unspecified,
             modifier = modifier.size(64.dp),
@@ -52,7 +53,7 @@ fun LoginFinishScreen(
         )
         Spacer(modifier = modifier.height(59.dp))
         Image(
-            painter = painterResource(id = Res.drawable.char_medi),
+            painter = painterResource(Res.drawable.char_medi),
             contentDescription = "medi character",
             modifier = modifier
                 .height(266.dp)

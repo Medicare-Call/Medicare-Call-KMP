@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.domain.model.type.TimeSettingType
 
@@ -67,7 +68,7 @@ fun TimeSettingItem(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        painter = painterResource(id = Res.drawable.ic_plus),
+                        painter = painterResource(Res.drawable.ic_plus),
                         contentDescription = "추가 아이콘",
                         modifier = modifier.size(20.dp),
                         tint = MediCareCallTheme.colors.main,

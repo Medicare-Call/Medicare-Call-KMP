@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.domain.model.DoseStatus
 import com.konkuk.medicarecall.domain.model.DoseStatusItem
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_pill_taken
 import com.konkuk.medicarecall.resources.ic_pill_uncheck
 import com.konkuk.medicarecall.resources.ic_pill_untaken

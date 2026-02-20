@@ -2,6 +2,7 @@ package com.konkuk.medicarecall.ui.navigation.component
 
 import androidx.compose.runtime.Composable
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_home_selected
 import com.konkuk.medicarecall.resources.ic_home_unselected
 import com.konkuk.medicarecall.resources.ic_settings_selected

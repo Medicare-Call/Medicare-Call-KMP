@@ -13,8 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material3.Text
+import androidx.compose.material3.Text
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
 @Composable
@@ -33,7 +34,7 @@ fun GlucoseStatusItem(
             Icon(
                 modifier = Modifier
                     .size(8.dp),
-                painter = painterResource(id = Res.drawable.ic_glucose_low),
+                painter = painterResource(Res.drawable.ic_glucose_low),
                 contentDescription = "low level",
                 tint = MediCareCallTheme.colors.active,
             )
@@ -51,7 +52,7 @@ fun GlucoseStatusItem(
             Icon(
                 modifier = Modifier
                     .size(8.dp),
-                painter = painterResource(id = Res.drawable.ic_glucose_normal),
+                painter = painterResource(Res.drawable.ic_glucose_normal),
                 contentDescription = "normal level",
                 tint = MediCareCallTheme.colors.positive,
             )
@@ -69,7 +70,7 @@ fun GlucoseStatusItem(
             Icon(
                 modifier = Modifier
                     .size(8.dp),
-                painter = painterResource(id = Res.drawable.ic_glucose_high),
+                painter = painterResource(Res.drawable.ic_glucose_high),
                 contentDescription = "high level",
                 tint = MediCareCallTheme.colors.negative,
             )

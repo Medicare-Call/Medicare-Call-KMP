@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.settings.component.PersonalInfoCard
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
 import com.konkuk.medicarecall.ui.feature.settings.elderhealth.viewmodel.SettingsEldersHealthViewModel
@@ -59,7 +60,7 @@ fun SettingsElderHealthScreen(
             title = "어르신 건강정보 설정",
             leftIcon = {
                 Icon(
-                    painterResource(id = Res.drawable.ic_settings_back),
+                    painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "setting back",
                     modifier = Modifier.clickable { onBack() },
                     tint = MediCareCallTheme.colors.black,
@@ -100,7 +101,7 @@ private fun SettingsElderHealthScreenPreview() {
                 title = "어르신 건강정보 설정",
                 leftIcon = {
                     Icon(
-                        painterResource(id = Res.drawable.ic_settings_back),
+                        painterResource(Res.drawable.ic_settings_back),
                         contentDescription = "setting back",
                         tint = MediCareCallTheme.colors.black,
                     )

@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.LocalMediCareCallShadowProvider
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
@@ -57,7 +58,7 @@ fun HomeGlucoseLevelContainer(
                         end = 6.dp,
                         bottom = 3.dp,
                     ),
-                    painter = painterResource(id = Res.drawable.ic_glucose),
+                    painter = painterResource(Res.drawable.ic_glucose),
                     contentDescription = "glucose icon",
                 )
 

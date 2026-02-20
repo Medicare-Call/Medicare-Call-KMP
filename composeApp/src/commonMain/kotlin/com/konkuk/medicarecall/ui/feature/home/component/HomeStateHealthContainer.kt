@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.LocalMediCareCallShadowProvider
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
@@ -52,7 +53,7 @@ fun HomeStateHealthContainer(
                 Image(
                     modifier = Modifier
                         .size(24.dp),
-                    painter = painterResource(id = Res.drawable.ic_heart),
+                    painter = painterResource(Res.drawable.ic_heart),
                     contentDescription = "health state icon",
                 )
 

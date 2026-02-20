@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
 @Composable
@@ -26,7 +27,7 @@ fun CallTimeBenefit(content: String, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            painter = painterResource(id = Res.drawable.ic_present),
+            painter = painterResource(Res.drawable.ic_present),
             contentDescription = "benefit_icon",
             modifier = modifier.size(14.dp),
             tint = Color.Unspecified, // Use default tint

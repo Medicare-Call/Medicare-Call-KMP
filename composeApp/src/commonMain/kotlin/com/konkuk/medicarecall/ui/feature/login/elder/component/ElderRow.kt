@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderData
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 
@@ -86,7 +87,7 @@ private fun ElderChip(
             )
             Spacer(Modifier.width(8.dp))
             Icon(
-                painter = painterResource(id = Res.drawable.ic_close),
+                painter = painterResource(Res.drawable.ic_close),
                 contentDescription = "remove",
                 modifier = Modifier
                     .size(16.dp)

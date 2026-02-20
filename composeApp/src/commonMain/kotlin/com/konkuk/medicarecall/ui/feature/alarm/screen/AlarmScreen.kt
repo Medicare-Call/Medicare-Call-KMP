@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.alarm.component.AlarmItem
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
@@ -32,7 +33,7 @@ fun AlarmScreen(
             title = "알림",
             leftIcon = {
                 Icon(
-                    painterResource(id = Res.drawable.ic_settings_back),
+                    painterResource(Res.drawable.ic_settings_back),
                     contentDescription = "setting back",
                     modifier = modifier
                         .size(24.dp)

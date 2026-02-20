@@ -32,6 +32,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
 import com.konkuk.medicarecall.ui.feature.settings.menu.viewmodel.SettingsMenuViewModel
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
@@ -112,7 +113,7 @@ private fun SettingsMenuLayout(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    painter = painterResource(id = Res.drawable.img_setting_profile),
+                    painter = painterResource(Res.drawable.img_setting_profile),
                     contentDescription = "settings profile image",
                     modifier = Modifier.size(80.dp),
                 )
@@ -130,7 +131,7 @@ private fun SettingsMenuLayout(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
-                    painter = painterResource(id = Res.drawable.ic_arrow_big),
+                    painter = painterResource(Res.drawable.ic_arrow_big),
                     contentDescription = "화살표 아이콘",
                     modifier = Modifier.size(28.dp),
                     tint = MediCareCallTheme.colors.gray2,
@@ -159,7 +160,7 @@ private fun SettingsMenuLayout(
                             .weight(2f),
                     ) {
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_announcement),
+                            painter = painterResource(Res.drawable.ic_announcement),
                             contentDescription = "공지사항 아이콘",
                             modifier = Modifier.size(32.dp),
                             tint = MediCareCallTheme.colors.main,
@@ -178,7 +179,7 @@ private fun SettingsMenuLayout(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_service_center),
+                            painter = painterResource(Res.drawable.ic_service_center),
                             contentDescription = "고객센터 아이콘",
                             modifier = Modifier.size(32.dp),
                             tint = MediCareCallTheme.colors.main,
@@ -197,7 +198,7 @@ private fun SettingsMenuLayout(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_subscription_management),
+                            painter = painterResource(Res.drawable.ic_subscription_management),
                             contentDescription = "구독관리 아이콘",
                             modifier = Modifier.size(32.dp),
                             tint = MediCareCallTheme.colors.main,
@@ -216,7 +217,7 @@ private fun SettingsMenuLayout(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_payment_detail),
+                            painter = painterResource(Res.drawable.ic_payment_detail),
                             contentDescription = "결제내역 아이콘",
                             modifier = Modifier.size(32.dp),
                             tint = MediCareCallTheme.colors.main,
@@ -254,7 +255,7 @@ private fun SettingsMenuLayout(
                             color = MediCareCallTheme.colors.gray8,
                         )
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_arrow_right),
+                            painter = painterResource(Res.drawable.ic_arrow_right),
                             contentDescription = "화살표 아이콘",
                             modifier = Modifier.size(24.dp),
                             tint = MediCareCallTheme.colors.gray2,
@@ -273,7 +274,7 @@ private fun SettingsMenuLayout(
                             color = MediCareCallTheme.colors.gray8,
                         )
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_arrow_right),
+                            painter = painterResource(Res.drawable.ic_arrow_right),
                             contentDescription = "화살표 아이콘",
                             modifier = Modifier.size(24.dp),
                             tint = MediCareCallTheme.colors.gray2,
@@ -292,7 +293,7 @@ private fun SettingsMenuLayout(
                             color = MediCareCallTheme.colors.gray8,
                         )
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_arrow_right),
+                            painter = painterResource(Res.drawable.ic_arrow_right),
                             contentDescription = "화살표 아이콘",
                             modifier = Modifier.size(24.dp),
                             tint = MediCareCallTheme.colors.gray2,
@@ -311,7 +312,7 @@ private fun SettingsMenuLayout(
                             color = MediCareCallTheme.colors.gray8,
                         )
                         Icon(
-                            painter = painterResource(id = Res.drawable.ic_arrow_right),
+                            painter = painterResource(Res.drawable.ic_arrow_right),
                             contentDescription = "화살표 아이콘",
                             modifier = Modifier.size(24.dp),
                             tint = MediCareCallTheme.colors.gray2,
