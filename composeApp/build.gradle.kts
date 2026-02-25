@@ -164,6 +164,7 @@ dependencies {
 
     // Koin KSP
     add("kspCommonMainMetadata", libs.koin.ksp.compiler)
+    add("kspAndroid", libs.koin.ksp.compiler)
 
     // Ktorfit KSP (plugin does not auto-configure for kspCommonMainMetadata in KMP)
     add("kspCommonMainMetadata", libs.ktorfit.ksp)
@@ -200,4 +201,20 @@ tasks.configureEach {
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "11"
+}
+
+// local.properties에서 iOS용 xcconfig 생성
+tasks.register("generateIosXcconfig") {
+    val localPropertiesFile = project.rootProject.file("local.properties")
+    val xcconfigFile = project.rootProject.file("iosApp/Local.xcconfig")
+    outputs.file(xcconfigFile)
+    doLast {
+        val properties = Properties().apply {
+            if (localPropertiesFile.exists()) {
+                load(localPropertiesFile.inputStream())
+            }
+        }
+        val baseUrl = properties["base.url"] ?: ""
+        xcconfigFile.writeText("BASE_URL = $baseUrl\n")
+    }
 }

@@ -45,9 +45,6 @@ google-services.json
 *.iws
 
 ### iOS / Xcode ###
-# XcodeGen generates .xcodeproj from project.yml - no need to track
-iosApp/iosApp.xcodeproj/
-
 # User settings
 xcuserdata/
 *.xcscmblueprint
@@ -216,6 +213,7 @@ build/
 
 # Local configuration file
 local.properties
+iosApp/Local.xcconfig
 
 # Claude Code
 .claude/settings.local.json
