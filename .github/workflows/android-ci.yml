@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "main", "develop" ] # main이나 develop 브랜치에 코드가 올라갈 때
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "main", "develop" ]
 
 jobs:
   ci-build:
