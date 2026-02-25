@@ -1,0 +1,53 @@
+name: iosApp
+options:
+  bundleIdPrefix: com.konkuk.medicarecall
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+targets:
+  iosApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: iosApp
+        excludes:
+          - "Info.plist"
+    info:
+      path: iosApp/Info.plist
+      properties:
+        CFBundleDisplayName: MediCareCall
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIStatusBarStyle: UIStatusBarStyleDefault
+        UIViewControllerBasedStatusBarAppearance: false
+        UIApplicationSupportsIndirectInputEvents: true
+        CADisableMinimumFrameDurationOnPhone: true
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        BaseURL: "$(BASE_URL)"
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.konkuk.medicarecall
+      FRAMEWORK_SEARCH_PATHS:
+        - "$(SRCROOT)/../composeApp/build/bin/iosSimulatorArm64/debugFramework"
+        - "$(SRCROOT)/../composeApp/build/bin/iosArm64/releaseFramework"
+      OTHER_LINKER_FLAGS: "-ObjC -framework ComposeApp"
+      DEVELOPMENT_TEAM: ""
+      TARGETED_DEVICE_FAMILY: "1"
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      BASE_URL: "https://medicare-call.shop/api/"
+    preBuildScripts:
+      - name: "Build Kotlin Framework"
+        script: |
+          cd "$SRCROOT/.."
+          ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+        basedOnDependencyAnalysis: false
+    postBuildScripts:
+      - name: "Sync Compose Resources"
+        script: |
+          cd "$SRCROOT/.."
+          ./gradlew :composeApp:syncComposeResourcesForIos
+        basedOnDependencyAnalysis: false
