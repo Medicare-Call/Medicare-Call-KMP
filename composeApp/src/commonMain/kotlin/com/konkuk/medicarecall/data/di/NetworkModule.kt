@@ -21,6 +21,8 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Named
@@ -38,6 +40,8 @@ val json = Json {
 
 @Module
 class NetworkModule {
+
+    private val refreshMutex = Mutex()
 
     private val defaultHttpClient: HttpClientConfig<*>.() -> Unit = {
         install(DefaultRequest) {
@@ -64,8 +68,8 @@ class NetworkModule {
         install(Auth) {
             bearer {
                 loadTokens {
-                    val accessToken = runBlocking { dataStoreRepository.getAccessToken() }
-                    val refreshToken = runBlocking { dataStoreRepository.getRefreshToken() }
+                    val accessToken = dataStoreRepository.getAccessToken()
+                    val refreshToken = dataStoreRepository.getRefreshToken()
 
                     BearerTokens(
                         accessToken = accessToken ?: "",
@@ -74,37 +78,27 @@ class NetworkModule {
                 }
 
                 refreshTokens {
-                    synchronized(this) {
+                    refreshMutex.withLock {
                         // 3. 현재 저장된 토큰들을 가져옴
-                        val accessToken = runBlocking { dataStoreRepository.getAccessToken() }
-                        val refreshToken = runBlocking { dataStoreRepository.getRefreshToken() }
+                        val accessToken = dataStoreRepository.getAccessToken()
+                        val refreshToken = dataStoreRepository.getRefreshToken()
 
                         require(!refreshToken.isNullOrEmpty())
-                        val refreshResponse = runBlocking {
-                            refreshService.refreshToken(refreshToken)
-                        }
-
-                        // 6. 토큰 갱신 API 호출 (runBlocking 사용)
+                        val refreshResponse = refreshService.refreshToken(refreshToken)
 
                         if (refreshResponse.isSuccessful && refreshResponse.body() != null) {
-                            // 7. 토큰 갱신 성공 시, 새로운 토큰들을 DataStore에 저장
+                            // 토큰 갱신 성공 시, 새로운 토큰들을 DataStore에 저장
                             val newTokens = refreshResponse.body()!!
-                            runBlocking {
-                                dataStoreRepository.saveAccessToken(newTokens.accessToken)
-                                dataStoreRepository.saveRefreshToken(newTokens.refreshToken)
-                            }
+                            dataStoreRepository.saveAccessToken(newTokens.accessToken)
+                            dataStoreRepository.saveRefreshToken(newTokens.refreshToken)
 
-                            val accessToken = runBlocking { dataStoreRepository.getAccessToken() }
-                            val refreshToken = runBlocking { dataStoreRepository.getRefreshToken() }
+                            val newAccessToken = dataStoreRepository.getAccessToken()
+                            val newRefreshToken = dataStoreRepository.getRefreshToken()
 
-                            BearerTokens(accessToken ?: "", refreshToken)
-                            //      response.request.newBuilder()
-                            //          .header("Authorization", "Bearer ${newTokens.accessToken}")
-                            //          .build() 대체
+                            BearerTokens(newAccessToken ?: "", newRefreshToken)
                         } else {
-                            // 9. 토큰 갱신 실패 시 (RefreshToken 만료 등), 저장된 토큰 삭제 후 null 반환
-                            runBlocking { dataStoreRepository.saveRefreshToken("") }
-                            // 여기서도 로그인 화면으로 보내는 로직 추가 가능
+                            // 토큰 갱신 실패 시, 저장된 토큰 삭제 후 null 반환
+                            dataStoreRepository.saveRefreshToken("")
                             null
                         }
                     }

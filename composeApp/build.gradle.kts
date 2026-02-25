@@ -164,10 +164,6 @@ dependencies {
 
     // Koin KSP
     add("kspCommonMainMetadata", libs.koin.ksp.compiler)
-    add("kspAndroid", libs.koin.ksp.compiler)
-    add("kspIosX64", libs.koin.ksp.compiler)
-    add("kspIosArm64", libs.koin.ksp.compiler)
-    add("kspIosSimulatorArm64", libs.koin.ksp.compiler)
 
     // Ktorfit KSP (plugin does not auto-configure for kspCommonMainMetadata in KMP)
     add("kspCommonMainMetadata", libs.ktorfit.ksp)
@@ -178,6 +174,7 @@ dependencies {
 }
 
 ksp {
+    arg("KOIN_USE_COMPOSE_VIEWMODEL", "true")
     arg("KOIN_DEFAULT_MODULE", "true")
 }
 
@@ -186,38 +183,21 @@ kotlin.sourceSets.commonMain {
     kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
 }
 
-// Remove duplicate _defaultModule/defaultModule from commonMain KSP output to avoid
-// conflict with Android KSP output (Android KSP already generates a complete defaultModule)
-tasks.matching { it.name == "kspCommonMainKotlinMetadata" }.configureEach {
-    doLast {
-        fileTree("build/generated/ksp/metadata/commonMain/kotlin") {
-            include("**/KoinDefault*.kt")
-        }.forEach { file ->
-            val content = file.readText()
-            val truncateAt = content.indexOf("\npublic val _defaultModule")
-            if (truncateAt != -1) {
-                file.writeText(content.substring(0, truncateAt) + "\n")
-            }
-        }
-    }
-}
-
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
     if (name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
 
+// KSP tasks (Ktorfit) for each platform also depend on commonMain KSP output
+tasks.configureEach {
+    if (name.startsWith("ksp") && name != "kspCommonMainKotlinMetadata" &&
+        (name.contains("KotlinIos") || name.endsWith("KotlinAndroid"))
+    ) {
+        dependsOn("kspCommonMainKotlinMetadata")
     }
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "11"
-}
-
-// composeApp/build.gradle.kts
-
-tasks.configureEach {
-    // Debug 빌드뿐만 아니라 Release 빌드에서도 같은 에러가 발생하는 것을 방지합니다.
-    if (name.startsWith("ksp") && name.endsWith("KotlinAndroid")) {
-        dependsOn("kspCommonMainKotlinMetadata")
-    }
 }

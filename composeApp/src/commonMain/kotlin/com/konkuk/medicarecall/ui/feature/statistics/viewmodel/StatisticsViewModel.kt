@@ -16,12 +16,15 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import org.koin.android.annotation.KoinViewModel
 
+@OptIn(ExperimentalTime::class)
 @KoinViewModel
 class StatisticsViewModel(
     private val repository: StatisticsRepository,
@@ -64,7 +67,7 @@ class StatisticsViewModel(
     }
 
     fun refresh() {
-        val currentTime = System.currentTimeMillis()
+        val currentTime = Clock.System.now().toEpochMilliseconds()
         if (currentTime - lastFetchTime < 60000) {
             return
         }
@@ -118,7 +121,7 @@ class StatisticsViewModel(
 
             repository.getStatistics(elderId, startDate.toString())
                 .onSuccess { data ->
-                    lastFetchTime = System.currentTimeMillis()
+                    lastFetchTime = Clock.System.now().toEpochMilliseconds()
                     if (earliestDate == LocalDate.MIN) {
                         earliestDate = LocalDate.parse(data.subscriptionStartDate ?: "1970-01-01")
                         val isEarliest = _uiState.value.currentWeek.first == earliestDate.weekStart()
