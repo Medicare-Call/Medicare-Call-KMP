@@ -10,14 +10,12 @@ import com.konkuk.medicarecall.data.repository.FcmRepository
 import com.konkuk.medicarecall.data.util.FcmTokenSerializer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
-import org.koin.core.annotation.Single
 
 val Context.fcmDataStore by dataStore(
     fileName = "fcm_tokens",
     serializer = FcmTokenSerializer,
 )
 
-@Single
 class FcmRepositoryImpl(
     private val context: Context,
     private val fcmValidationService: FcmValidationService,
