@@ -53,6 +53,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -62,12 +65,20 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: Generate local.properties
+        run: |
+          echo '${{ secrets.LOCAL_PROPERTIES }}' >> ./local.properties
+
+      - name: Generate Local.xcconfig
+        run: |
+          echo '${{ secrets.IOS_XCCONFIG }}' >> ./iosApp/Local.xcconfig
+
       - name: Build KMP iOS framework
         run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
 
       - name: Build iOS App with Xcode
         run: |
-          xcodebuild -workspace iosApp/iosApp.xcworkspace \
+          xcodebuild -project iosApp/iosApp.xcodeproj \
                      -scheme iosApp \
                      -configuration Debug \
                      -sdk iphonesimulator \
