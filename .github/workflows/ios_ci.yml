@@ -28,11 +28,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      # 4. KMP 공통 코드(Shared 모듈) iOS 프레임워크 빌드하기
-      # 프로젝트 구조에 따라 모듈 이름(:shared 또는 :composeApp 등)이 다를 수 있습니다.
-      - name: Build KMP shared iOS framework
-        run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
-        # 또는 전체 빌드를 원한다면: run: ./gradlew build
+      # 4. KMP iOS 프레임워크 빌드하기
+      - name: Build KMP iOS framework
+        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
 
       # 5. (선택) UI까지 포함된 실제 iOS 앱(Xcode 프로젝트) 빌드 테스트
       # Xcode 프로젝트 폴더 이름(iosApp 등)과 Scheme을 확인하세요.
