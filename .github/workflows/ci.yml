@@ -61,9 +61,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'zulu'
+          cache: gradle
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Generate local.properties
         run: |
@@ -71,7 +79,11 @@ jobs:
 
       - name: Generate Local.xcconfig
         run: |
-          echo '${{ secrets.IOS_XCCONFIG }}' >> ./iosApp/Local.xcconfig
+          if [ -n "${{ secrets.IOS_XCCONFIG }}" ]; then
+            echo '${{ secrets.IOS_XCCONFIG }}' >> ./iosApp/Local.xcconfig
+          else
+            echo 'BASE_URL = https://medicare-call.shop/api/' >> ./iosApp/Local.xcconfig
+          fi
 
       - name: Build KMP iOS framework
         run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
@@ -83,4 +95,5 @@ jobs:
                      -configuration Debug \
                      -destination 'generic/platform=iOS Simulator' \
                      ARCHS=arm64 \
+                     CODE_SIGNING_ALLOWED=NO \
                      build
