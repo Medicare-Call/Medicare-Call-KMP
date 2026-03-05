@@ -37,6 +37,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            freeCompilerArgs += "-Xdisable-phases=DevirtualizationAnalysis"
         }
     }
 
@@ -214,7 +215,11 @@ tasks.register("generateIosXcconfig") {
                 load(localPropertiesFile.inputStream())
             }
         }
-        val baseUrl = properties["base.url"] ?: ""
-        xcconfigFile.writeText("BASE_URL = $baseUrl\n")
+        val baseUrl = (properties["base.url"] as? String) ?: ""
+        // xcconfig에서 //는 주석으로 처리되므로 슬래시를 분리하여 우회
+        xcconfigFile.writeText(buildString {
+            appendLine("SLASH = /")
+            appendLine("BASE_URL = ${baseUrl.replace("//", "/$(SLASH)/")}")
+        })
     }
 }
