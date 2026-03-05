@@ -2,7 +2,6 @@ package com.konkuk.medicarecall.ui.feature.login.myinfo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.messaging.FirebaseMessaging
 import com.konkuk.medicarecall.data.repository.DataStoreRepository
 import com.konkuk.medicarecall.data.repository.FcmRepository
 import com.konkuk.medicarecall.data.repository.MemberRegisterRepository
@@ -16,8 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import com.konkuk.medicarecall.platform.getFcmToken
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
@@ -134,7 +133,7 @@ class LoginInfoViewModel(
                 }
 
                 val userInfo = _uiState.value.userInfo
-                val fcmToken = FirebaseMessaging.getInstance().token.await()
+                val fcmToken = getFcmToken()
 
                 memberRegisterRepository.registerMember(
                     name = userInfo.name,

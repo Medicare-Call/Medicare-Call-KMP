@@ -42,6 +42,16 @@ import com.konkuk.medicarecall.ui.theme.figmaShadow
 import com.konkuk.medicarecall.ui.type.CTAButtonType
 import org.koin.compose.viewmodel.koinViewModel
 
+private fun Int.formatWithComma(): String {
+    val s = this.toString()
+    val result = StringBuilder()
+    for ((i, c) in s.reversed().withIndex()) {
+        if (i > 0 && i % 3 == 0) result.append(',')
+        result.append(c)
+    }
+    return result.reverse().toString()
+}
+
 @Composable
 fun SettingsSubscriptionDetailScreen(
     modifier: Modifier = Modifier,
@@ -171,7 +181,7 @@ private fun SubscribeDetailContent(
                     color = MediCareCallTheme.colors.main,
                 )
                 Text(
-                    text = "월 ${"%,d".format(subscriptionInfo.price)}원",
+                    text = "월 ${subscriptionInfo.price.formatWithComma()}원",
                     style = MediCareCallTheme.typography.SB_16,
                     color = MediCareCallTheme.colors.gray8,
                 )

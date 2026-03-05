@@ -32,7 +32,7 @@ class SetCallRepositoryImpl(
             amPm == 1 && h12 < 12 -> h12 + 12
             else -> h12 % 24
         }
-        return "%02d:%02d".format(h24, m)
+        return "${h24.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}"
     }
 
     private fun CallTimes.toRequestDto(): SetCallTimeRequestDto =

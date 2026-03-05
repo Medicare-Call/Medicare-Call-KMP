@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Generate local.properties
+        run: |
+          echo '${{ secrets.LOCAL_PROPERTIES }}' >> ./local.properties
+
+      - name: Generate google-services.json
+        run: |
+          echo '${{ secrets.GOOGLE_SERVICES }}' >> ./composeApp/google-services.json
+
+      - name: Code style checks
+        run: ./gradlew detekt
+
+      - name: Run build
+        run: ./gradlew buildDebug --stacktrace
+
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+          cache: gradle
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Generate local.properties
+        run: |
+          echo '${{ secrets.LOCAL_PROPERTIES }}' >> ./local.properties
+
+      - name: Generate Local.xcconfig
+        run: |
+          if [ -n "${{ secrets.IOS_XCCONFIG }}" ]; then
+            echo '${{ secrets.IOS_XCCONFIG }}' >> ./iosApp/Local.xcconfig
+          else
+            echo 'BASE_URL = https://medicare-call.shop/api/' >> ./iosApp/Local.xcconfig
+          fi
+
+      - name: Build KMP iOS framework
+        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+
+      - name: Build iOS App with Xcode
+        run: |
+          xcodebuild -project iosApp/iosApp.xcodeproj \
+                     -scheme iosApp \
+                     -configuration Debug \
+                     -destination 'generic/platform=iOS Simulator' \
+                     ARCHS=arm64 \
+                     CODE_SIGNING_ALLOWED=NO \
+                     build

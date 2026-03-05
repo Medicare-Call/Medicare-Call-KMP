@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
@@ -27,8 +26,6 @@ import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.ui.theme.LocalMediCareCallShadowProvider
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
-
-val noFontPadding = PlatformTextStyle(includeFontPadding = false)
 
 @Composable
 fun HomeSleepContainer(
@@ -92,7 +89,6 @@ fun HomeSleepContainer(
                     Text(
                         text = hoursText,
                         style = MediCareCallTheme.typography.SB_22.copy(
-                            platformStyle = noFontPadding,
                             lineHeightStyle = LineHeightStyle(
                                 alignment = LineHeightStyle.Alignment.Center,
                                 trim = LineHeightStyle.Trim.Both,
@@ -105,7 +101,6 @@ fun HomeSleepContainer(
                     Text(
                         text = "시간",
                         style = MediCareCallTheme.typography.R_16.copy(
-                            platformStyle = noFontPadding,
                             lineHeightStyle = LineHeightStyle(
                                 alignment = LineHeightStyle.Alignment.Center,
                                 trim = LineHeightStyle.Trim.Both,
@@ -119,7 +114,6 @@ fun HomeSleepContainer(
                     Text(
                         text = minutesText,
                         style = MediCareCallTheme.typography.SB_22.copy(
-                            platformStyle = noFontPadding,
                             lineHeightStyle = LineHeightStyle(
                                 alignment = LineHeightStyle.Alignment.Center,
                                 trim = LineHeightStyle.Trim.Both,
@@ -134,7 +128,6 @@ fun HomeSleepContainer(
                     Text(
                         text = "분",
                         style = MediCareCallTheme.typography.R_16.copy(
-                            platformStyle = noFontPadding,
                             lineHeightStyle = LineHeightStyle(
                                 alignment = LineHeightStyle.Alignment.Center,
                                 trim = LineHeightStyle.Trim.Both,

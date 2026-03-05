@@ -56,7 +56,7 @@ private object ElderIdsOkioSerializer : OkioSerializer<ElderIds> {
 }
 
 val iosModule: Module = module {
-    single<DataStore<Token>>(named("TokenDataStore")) {
+    single<DataStore<Token>>(named("com.konkuk.medicarecall.data.di.TokenDataStore")) {
         DataStoreFactory.create(
             storage = OkioStorage(
                 fileSystem = FileSystem.SYSTEM,
@@ -66,7 +66,7 @@ val iosModule: Module = module {
         )
     }
 
-    single<DataStore<ElderIds>>(named("ElderIdDataStore")) {
+    single<DataStore<ElderIds>>(named("com.konkuk.medicarecall.data.di.ElderIdDataStore")) {
         DataStoreFactory.create(
             storage = OkioStorage(
                 fileSystem = FileSystem.SYSTEM,

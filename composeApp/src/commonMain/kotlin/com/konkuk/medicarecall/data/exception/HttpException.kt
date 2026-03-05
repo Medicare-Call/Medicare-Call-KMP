@@ -6,7 +6,6 @@ class HttpException(response: Response<*>) : RuntimeException(getMessage(respons
     private val _code: Int = response.code
     private val _message: String = response.message
 
-    @Transient
     private val response: Response<*>? = response
 
     fun code(): Int = _code

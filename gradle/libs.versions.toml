@@ -1,14 +1,14 @@
 [versions]
 agp = "8.13.0"
 kotlin = "2.2.20"
-compose-multiplatform = "1.7.3"
+compose-multiplatform = "1.10.1"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
-navigationCompose = "2.9.0-alpha14"
+navigationCompose = "2.9.1"
 detekt = "1.23.8"
 firebaseBom = "34.1.0"
 firebaseMessaging = "25.0.0"
@@ -24,7 +24,7 @@ ktorfit = "2.7.1"
 kotlinxSerializationJson = "1.8.0"
 kotlinxDatetime = "0.7.1"
 kotlinxCoroutines = "1.8.1"
-lifecycle = "2.8.4"
+lifecycle = "2.10.0-alpha04"
 
 [libraries]
 # AndroidX

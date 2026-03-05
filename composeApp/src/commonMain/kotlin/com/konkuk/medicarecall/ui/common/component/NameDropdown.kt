@@ -1,6 +1,5 @@
 package com.konkuk.medicarecall.ui.common.component
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,11 +38,8 @@ fun NameDropdown(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
-            decorFitsSystemWindows = false,
         ),
     ) {
-        BackHandler(enabled = true, onBack = onDismiss)
-
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
