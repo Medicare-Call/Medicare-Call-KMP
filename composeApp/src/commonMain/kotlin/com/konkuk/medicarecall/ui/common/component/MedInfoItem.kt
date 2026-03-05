@@ -215,7 +215,7 @@ private fun MedInfoItemPreview() {
                 medications = mutableListOf(
                     MedicationSchedule(
                         medicationName = "당뇨약",
-                        scheduleTimes = listOf(MedicationTime.BREAKFAST, MedicationTime.DINNER),
+                        scheduleTimes = listOf(MedicationTime.MORNING, MedicationTime.DINNER),
                     ),
                 ),
             )
