@@ -14,6 +14,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +43,7 @@ fun StateHealthDetailScreen(
     viewModel: HealthViewModel = koinViewModel(),
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    var isInitialLoading by remember { mutableStateOf(true) }
 
     // 재진입 시 오늘로 초기화
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -54,17 +58,11 @@ fun StateHealthDetailScreen(
         viewModel.loadHealthDataForDate(elderId, selectedDate)
     }
 
-    if (!isLoading)
-        StateHealthDetailScreenLayout(
-            modifier = Modifier,
-            onBack = onBack,
-            selectedDate = selectedDate,
-            health = health,
-            weekDates = selectedDate.getCurrentWeekDates(),
-            onDateSelected = { viewModel.selectDate(it) },
-            onMonthClick = { /* 모달 열기 */ },
-        )
-    else
+    LaunchedEffect(isLoading) {
+        if (!isLoading) isInitialLoading = false
+    }
+
+    if (isLoading && isInitialLoading) {
         Box(
             Modifier
                 .fillMaxSize()
@@ -75,6 +73,17 @@ fun StateHealthDetailScreen(
                 color = MediCareCallTheme.colors.main,
             )
         }
+    } else {
+        StateHealthDetailScreenLayout(
+            modifier = Modifier,
+            onBack = onBack,
+            selectedDate = selectedDate,
+            health = health,
+            weekDates = selectedDate.getCurrentWeekDates(),
+            onDateSelected = { viewModel.selectDate(it) },
+            onMonthClick = { /* 모달 열기 */ },
+        )
+    }
 }
 
 @Composable
