@@ -1,10 +1,13 @@
 package com.konkuk.medicarecall.ui.feature.home.navigation
 
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.konkuk.medicarecall.ui.feature.home.screen.HomeScreen
+import com.konkuk.medicarecall.ui.feature.home.viewmodel.HomeViewModel
 import com.konkuk.medicarecall.ui.navigation.MainTabRoute
 
 fun NavController.navigateToHome(navOptions: NavOptions) {
@@ -18,9 +21,11 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToStateHealthDetailScreen: (Long) -> Unit,
     navigateToStateMentalDetailScreen: (Long) -> Unit,
     navigateToGlucoseDetailScreen: (Long) -> Unit,
+    getBackStackHomeViewModel: @Composable (NavBackStackEntry) -> HomeViewModel,
 ) {
     composable<MainTabRoute.Home> { backStackEntry ->
         HomeScreen(
+            viewModel = getBackStackHomeViewModel(backStackEntry),
             navigateToMealDetailScreen = { elderId ->
                 navigateToMealDetailScreen(elderId)
             },
