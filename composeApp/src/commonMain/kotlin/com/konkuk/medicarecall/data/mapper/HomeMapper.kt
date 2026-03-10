@@ -37,9 +37,17 @@ private fun HomeResponseDto.MedicationDto.toMedicines(): Medicines {
         medicineName = type.orEmpty(),
         todayTakenCount = taken,
         todayRequiredCount = goal,
-        nextDoseTime = nextTime,
+        nextDoseTime = formatNextDoseTimeToKorean(nextTime),
         doseStatusList = doseStatusList?.map { it.toHomeDoseStatus() } ?: emptyList(),
     )
+}
+
+private fun formatNextDoseTimeToKorean(nextTime: String?): String? {
+    if (nextTime.isNullOrBlank()) return nextTime
+    return nextTime
+        .replace("MORNING", "아침약")
+        .replace("LUNCH", "점심약")
+        .replace("DINNER", "저녁약")
 }
 
 // Dose DTO → Domain
