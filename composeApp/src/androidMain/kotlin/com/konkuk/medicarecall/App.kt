@@ -26,9 +26,6 @@ import org.koin.ksp.generated.module
 
 @KoinApplication
 class App : Application() {
-
-
-
     private val fcmRepository: FcmRepository by inject()
 
     // Application 전체에서 쑬 수 있는 스코프(앱이 살아있는 동안 유지돼야 하는 초기화/저장 작업 진행 - 여러 초기화 작업 한덩어리로 관리)

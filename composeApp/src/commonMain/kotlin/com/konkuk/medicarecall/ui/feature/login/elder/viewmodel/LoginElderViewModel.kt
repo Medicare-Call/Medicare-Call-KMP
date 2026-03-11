@@ -50,15 +50,12 @@ class LoginElderViewModel(
         viewModelScope.launch {
             elderInfoRepository.getEldersV2()
                 .onSuccess { data ->
-                    _loginElderUiState.update { state ->
-                        state.copy(
-                            eldersList =
-                                if (data.isEmpty())
-                                    listOf(LoginElderData())
-                                else
-                                    data.map { it.toLoginElderData() },
-                        )
-                    }
+                    if (data.isNotEmpty())
+                        _loginElderUiState.update { state ->
+                            state.copy(
+                                eldersList = data.map { it.toLoginElderData() },
+                            )
+                        }
                 }.onFailure { error ->
                 }
         }
