@@ -43,7 +43,7 @@ fun StateHealthDetailScreen(
     viewModel: HealthViewModel = koinViewModel(),
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    var isInitialLoading by remember { mutableStateOf(true) }
+    var isInitialLoading by remember(elderId) { mutableStateOf(true) }
 
     // 재진입 시 오늘로 초기화
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
