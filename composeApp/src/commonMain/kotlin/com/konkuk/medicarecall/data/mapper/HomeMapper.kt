@@ -190,9 +190,9 @@ object HomeMapper {
 
     private fun getDefaultNextDose(firstTimeKey: Any?): String {
         return when (firstTimeKey?.toString()?.uppercase()) {
-            "MORNING" -> "아침"
-            "LUNCH" -> "점심"
-            "DINNER" -> "저녁"
+            "MORNING" -> "아침약"
+            "LUNCH" -> "점심약"
+            "DINNER" -> "저녁약"
             else -> "-"
         }
     }
