@@ -50,9 +50,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
 
-            // napier Log
-            implementation("io.github.aakira:napier:2.7.1")
-
             // Navigation (KMP)
             implementation(libs.navigation.compose)
 

@@ -30,9 +30,9 @@ class CallTimeViewModel(
     private fun observeElderIds() {
         viewModelScope.launch {
             try {
-                _uiState.update { it.copy(elderMap = elderIdRepository.getElderIds(), isLoading = false) }
+                _uiState.update { it.copy(elderMap = elderIdRepository.getElderIds()) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = e, isLoading = false) }
+                _uiState.update { it.copy(error = e) }
             }
         }
     }
