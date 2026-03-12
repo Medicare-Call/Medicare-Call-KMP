@@ -6,6 +6,7 @@ import com.konkuk.medicarecall.domain.model.Home
 import com.konkuk.medicarecall.domain.model.HomeDoseStatusList
 import com.konkuk.medicarecall.domain.model.HomeSleep
 import com.konkuk.medicarecall.domain.model.Medicines
+import com.konkuk.medicarecall.domain.model.type.MedicationTime
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.DoseStatusUiState
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.HomeUiState
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.MedicineUiState
@@ -44,10 +45,7 @@ private fun HomeResponseDto.MedicationDto.toMedicines(): Medicines {
 
 private fun formatNextDoseTimeToKorean(nextTime: String?): String? {
     if (nextTime.isNullOrBlank()) return nextTime
-    return nextTime
-        .replace("MORNING", "아침약")
-        .replace("LUNCH", "점심약")
-        .replace("DINNER", "저녁약")
+    return MedicationTime.fromRaw(nextTime)?.toDoseLabel() ?: nextTime
 }
 
 // Dose DTO → Domain
@@ -188,12 +186,6 @@ object HomeMapper {
         }
     }
 
-    private fun getDefaultNextDose(firstTimeKey: Any?): String {
-        return when (firstTimeKey?.toString()?.uppercase()) {
-            "MORNING" -> "아침약"
-            "LUNCH" -> "점심약"
-            "DINNER" -> "저녁약"
-            else -> "-"
-        }
-    }
+    private fun getDefaultNextDose(firstTimeKey: Any?): String =
+        MedicationTime.fromRaw(firstTimeKey?.toString())?.toDoseLabel() ?: "-"
 }
