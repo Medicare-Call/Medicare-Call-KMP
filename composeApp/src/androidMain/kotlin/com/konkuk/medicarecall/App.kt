@@ -10,8 +10,6 @@ import com.konkuk.medicarecall.data.di.ApiModule
 import com.konkuk.medicarecall.data.di.LocalModule
 import com.konkuk.medicarecall.data.di.NetworkModule
 import com.konkuk.medicarecall.data.repository.FcmRepository
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,6 +24,7 @@ import org.koin.ksp.generated.module
 
 @KoinApplication
 class App : Application() {
+
     private val fcmRepository: FcmRepository by inject()
 
     // Application 전체에서 쑬 수 있는 스코프(앱이 살아있는 동안 유지돼야 하는 초기화/저장 작업 진행 - 여러 초기화 작업 한덩어리로 관리)
@@ -33,7 +32,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Napier.base(DebugAntilog())
         startKoin {
             androidLogger()
             androidContext(this@App)
