@@ -26,7 +26,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -81,8 +83,12 @@ fun CallTimeScreen(
     }
 
     val scrollState = rememberScrollState() // 스크롤 상태
+    var showBottomSheet by remember { mutableStateOf(false) } // 하단 시트 제어
+
+//    var selectedIndex by remember { mutableIntStateOf(0) } // 선택된 어르신 인덱스
     var selectedId by remember { mutableLongStateOf(uiState.elderMap.keys.first()) } // 선택된 어르신 아이디
     val saved = uiState.timeMap[selectedId] ?: CallTimes()
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     val allComplete = callTimeViewModel.isAllComplete(uiState.elderMap.keys)
 
@@ -315,10 +321,10 @@ fun CallTimeScreen(
                 },
                 modifier = Modifier.padding(bottom = 20.dp),
             ) // 입력여부에 따라 Type 바뀌도록 수정 필요
-            if (uiState.showBottomSheet) {
+            if (showBottomSheet) {
                 TimePickerBottomSheet(
                     visible = true,
-                    initialTabIndex = uiState.selectedTabIndex,
+                    initialTabIndex = selectedTabIndex,
                     // 기존에 선택됐던 값을 다시 초기값으로 넘겨주면 UX가 매끄러워집니다.
                     initialFirstHour = saved.first?.second ?: 9,
                     initialFirstMinute = saved.first?.third ?: 0,
