@@ -75,6 +75,9 @@ fun NavGraph(
 //            )
 //        }
         homeNavGraph(
+            getBackStackHomeViewModel = { backStackEntry ->
+                backStackEntry.sharedViewModel<HomeViewModel, MainTabRoute.Home>(navController)
+            },
             navigateToMealDetailScreen = navigator::navigateToMealDetailScreen,
             navigateToMedicineDetailScreen = navigator::navigateToMedicineDetailScreen,
             navigateToSleepDetailScreen = navigator::navigateToSleepDetailScreen,

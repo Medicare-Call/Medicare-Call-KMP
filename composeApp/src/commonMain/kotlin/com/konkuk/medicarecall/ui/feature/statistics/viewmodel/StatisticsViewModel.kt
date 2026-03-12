@@ -40,11 +40,15 @@ class StatisticsViewModel(
 
     init {
         viewModelScope.launch {
+            _uiState.update { it.copy(eldersMap = eldersIdRepository.getElderIds()) }
+        }
+
+        viewModelScope.launch {
             _uiState
                 .map { it.selectedElderId to it.currentWeek }
                 .distinctUntilChanged()
                 .collect { (id, week) ->
-                    if (id != null) {
+                    if (id != -1L) {
                         // [수정 2] 주차가 변경될 때마다 isLatestWeek와 isEarliestWeek를 다시 계산합니다.
                         // 이렇게 하면 API 호출 성공/실패와 관계없이 UI 상태가 정확해집니다.
                         val weekStart = week.first
@@ -58,7 +62,6 @@ class StatisticsViewModel(
                         getWeeklyStatistics(elderId = id, startDate = weekStart)
                     }
                 }
-            _uiState.update { it.copy(eldersMap = eldersIdRepository.getElderIds()) }
         }
     }
 
