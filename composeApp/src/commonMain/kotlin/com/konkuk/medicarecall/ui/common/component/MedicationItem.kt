@@ -151,7 +151,7 @@ private fun MedicationItemPreview() {
         Column(Modifier.padding(16.dp)) {
             MedicationItem(
                 medications = listOf(
-                    Medication("당뇨약", listOf(MedicationTime.BREAKFAST)),
+                    Medication("당뇨약", listOf(MedicationTime.MORNING)),
                     Medication("혈압약", listOf(MedicationTime.DINNER)),
                 ),
                 selectedTimes = listOf(),
