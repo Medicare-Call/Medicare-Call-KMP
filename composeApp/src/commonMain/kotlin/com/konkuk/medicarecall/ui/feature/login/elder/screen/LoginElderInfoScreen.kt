@@ -33,13 +33,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.konkuk.medicarecall.resources.Res
-import com.konkuk.medicarecall.resources.*
-import com.konkuk.medicarecall.resources.ic_plus
 import com.konkuk.medicarecall.domain.model.type.ElderResidence
+import com.konkuk.medicarecall.domain.model.type.GenderType
+import com.konkuk.medicarecall.domain.model.type.Relationship
+import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.ic_plus
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.common.component.DefaultSnackBar
 import com.konkuk.medicarecall.ui.common.util.isValidDate
@@ -50,10 +50,9 @@ import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderViewMo
 import com.konkuk.medicarecall.ui.feature.login.myinfo.component.LoginBackButton
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.type.CTAButtonType
-import com.konkuk.medicarecall.domain.model.type.GenderType
-import com.konkuk.medicarecall.domain.model.type.Relationship
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
