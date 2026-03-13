@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import com.konkuk.medicarecall.platform.platformDynamicColorScheme
 
@@ -32,11 +33,21 @@ fun MediCareCallTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
-    )
+    val mediCareCallTypography = createMediCareCallTypography()
+    val mediCareCallColors = defaultMediCareCallColors
+    val mediCareCallShadow = defaultMediCareCallShadow
+
+    CompositionLocalProvider(
+        LocalMediCareCallColorsProvider provides mediCareCallColors,
+        LocalMedicareCallTypographyProvider provides mediCareCallTypography,
+        LocalMediCareCallShadowProvider provides mediCareCallShadow,
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content,
+        )
+    }
 }
 
 object MediCareCallTheme {
