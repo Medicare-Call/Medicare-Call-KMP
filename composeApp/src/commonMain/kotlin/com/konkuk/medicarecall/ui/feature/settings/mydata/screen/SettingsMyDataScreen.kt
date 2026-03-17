@@ -27,23 +27,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.konkuk.medicarecall.domain.model.type.GenderType
 import com.konkuk.medicarecall.resources.Res
-import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.resources.ic_settings_back
 import com.konkuk.medicarecall.ui.common.util.formatDateToKorean
-import com.konkuk.medicarecall.ui.feature.settings.mydata.component.LogoutConfirmDialog
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingInfoItem
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
+import com.konkuk.medicarecall.ui.feature.settings.mydata.component.LogoutConfirmDialog
 import com.konkuk.medicarecall.ui.feature.settings.mydata.viewmodel.SettingsMyDataViewModel
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.theme.figmaShadow
-import com.konkuk.medicarecall.domain.model.type.GenderType
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -78,7 +77,7 @@ fun SettingsMyDataScreen(
         onBackClick = onBack,
         onEditClick = navigateToUserInfoSetting,
         onLogoutClick = { showLogoutDialog = true },
-        onServiceWithdrawClick = {},
+        onServiceWithdrawClick = { viewModel.deleteUser() },
         onLogoutDismiss = { showLogoutDialog = false },
         onLogoutConfirm = {
             viewModel.logout(
