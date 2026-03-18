@@ -79,23 +79,28 @@ class NetworkModule {
 
                 refreshTokens {
                     refreshMutex.withLock {
-                        // 3. 현재 저장된 토큰들을 가져옴
-                        val accessToken = dataStoreRepository.getAccessToken()
                         val refreshToken = dataStoreRepository.getRefreshToken()
+                        if (refreshToken.isNullOrBlank()) {
+                            dataStoreRepository.saveRefreshToken("")
+                            return@withLock null
+                        }
 
-                        require(!refreshToken.isNullOrEmpty())
-                        val refreshResponse = refreshService.refreshToken(refreshToken)
+                        val refreshResponse = runCatching {
+                            refreshService.refreshToken(refreshToken)
+                        }.getOrElse {
+                            dataStoreRepository.saveRefreshToken("")
+                            return@withLock null
+                        }
 
                         if (refreshResponse.isSuccessful && refreshResponse.body() != null) {
-                            // 토큰 갱신 성공 시, 새로운 토큰들을 DataStore에 저장
                             val newTokens = refreshResponse.body()!!
                             dataStoreRepository.saveAccessToken(newTokens.accessToken)
                             dataStoreRepository.saveRefreshToken(newTokens.refreshToken)
 
-                            val newAccessToken = dataStoreRepository.getAccessToken()
-                            val newRefreshToken = dataStoreRepository.getRefreshToken()
-
-                            BearerTokens(newAccessToken ?: "", newRefreshToken)
+                            BearerTokens(
+                                accessToken = newTokens.accessToken,
+                                refreshToken = newTokens.refreshToken,
+                            )
                         } else {
                             // 토큰 갱신 실패 시, 저장된 토큰 삭제 후 null 반환
                             dataStoreRepository.saveRefreshToken("")
