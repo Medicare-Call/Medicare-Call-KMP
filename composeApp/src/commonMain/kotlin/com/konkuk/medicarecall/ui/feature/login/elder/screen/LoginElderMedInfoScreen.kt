@@ -34,9 +34,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-
 import com.konkuk.medicarecall.domain.model.Medication
 import com.konkuk.medicarecall.domain.model.type.HealthIssueType
+import com.konkuk.medicarecall.domain.model.type.MedicationCategory
 import com.konkuk.medicarecall.domain.model.type.MedicationTime
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.common.component.ChipItem
@@ -90,6 +90,7 @@ fun LoginElderMedInfoScreen(
             onAddDisease = viewModel::addDisease,
             onRemoveMedication = viewModel::removeMedication,
             onSelectTime = viewModel::selectMedicationTime,
+            onSelectMedicationCategory = viewModel::selectMedicationCategory,
             onAddMedication = viewModel::addMedication,
             onRemoveHealthNote = viewModel::removeHealthNote,
             onAddHealthNote = viewModel::addHealthNote,
@@ -115,6 +116,7 @@ private fun LoginElderMedInfoScreenLayout(
     onAddDisease: (String) -> Unit,
     onRemoveMedication: (Medication) -> Unit,
     onSelectTime: (MedicationTime) -> Unit,
+    onSelectMedicationCategory: (MedicationCategory) -> Unit,
     onAddMedication: (String) -> Unit,
     onRemoveHealthNote: (HealthIssueType) -> Unit,
     onAddHealthNote: (HealthIssueType) -> Unit,
@@ -161,8 +163,10 @@ private fun LoginElderMedInfoScreenLayout(
                 medications = selectedElder.medications,
                 inputTextState = uiState.medicationInputText,
                 selectedTimes = uiState.selectedMedicationTimes.toList(),
+                selectedCategory = uiState.selectedMedicationCategory,
                 onRemoveMedication = onRemoveMedication,
                 onSelectTime = onSelectTime,
+                onSelectCategory = onSelectMedicationCategory,
                 onAddMedication = onAddMedication,
             )
 
@@ -255,6 +259,7 @@ private fun LoginElderMedInfoScreenPreview() {
             onAddDisease = {},
             onRemoveMedication = {},
             onSelectTime = {},
+            onSelectMedicationCategory = {},
             onAddMedication = {},
             onRemoveHealthNote = {},
             onAddHealthNote = {},

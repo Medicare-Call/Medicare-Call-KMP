@@ -8,6 +8,7 @@ import com.konkuk.medicarecall.domain.model.Medication
 import com.konkuk.medicarecall.domain.model.type.ElderResidence
 import com.konkuk.medicarecall.domain.model.type.GenderType
 import com.konkuk.medicarecall.domain.model.type.HealthIssueType
+import com.konkuk.medicarecall.domain.model.type.MedicationCategory
 import com.konkuk.medicarecall.domain.model.type.MedicationTime
 import com.konkuk.medicarecall.domain.model.type.Relationship
 
@@ -15,6 +16,7 @@ data class LoginElderUiState(
     val selectedIndex: Int = 0,
     val eldersList: List<LoginElderData> = listOf(LoginElderData()),
     val selectedMedicationTimes: Set<MedicationTime> = emptySet(),
+    val selectedMedicationCategory: MedicationCategory = MedicationCategory.PRESCRIPTION,
     val diseaseInputText: TextFieldState = TextFieldState(""),
     val medicationInputText: TextFieldState = TextFieldState(""),
 )

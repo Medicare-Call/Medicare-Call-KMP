@@ -10,6 +10,7 @@ import com.konkuk.medicarecall.domain.model.Medication
 import com.konkuk.medicarecall.domain.model.type.ElderResidence
 import com.konkuk.medicarecall.domain.model.type.GenderType
 import com.konkuk.medicarecall.domain.model.type.HealthIssueType
+import com.konkuk.medicarecall.domain.model.type.MedicationCategory
 import com.konkuk.medicarecall.domain.model.type.MedicationTime
 import com.konkuk.medicarecall.domain.model.type.Relationship
 import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderData.Companion.toLoginElderData
@@ -238,6 +239,14 @@ class LoginElderViewModel(
                 } else {
                     state.selectedMedicationTimes + time
                 },
+            )
+        }
+    }
+
+    fun selectMedicationCategory(category: MedicationCategory) {
+        _loginElderUiState.update { state ->
+            state.copy(
+                selectedMedicationCategory = category,
             )
         }
     }
