@@ -193,9 +193,8 @@ class MainNavigator(
 
     fun navigateToLoginAfterLogout() {
         navController.navigate(Route.LoginStart) {
-            popUpTo(MainTabRoute.Home) { inclusive = true }
+            popUpTo(0) { inclusive = true }
             launchSingleTop = true
-            restoreState = true
         }
     }
 
