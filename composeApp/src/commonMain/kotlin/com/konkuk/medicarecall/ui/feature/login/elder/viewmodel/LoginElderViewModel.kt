@@ -13,6 +13,8 @@ import com.konkuk.medicarecall.domain.model.type.HealthIssueType
 import com.konkuk.medicarecall.domain.model.type.MedicationTime
 import com.konkuk.medicarecall.domain.model.type.Relationship
 import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderData.Companion.toLoginElderData
+import io.github.aakira.napier.Napier
+import io.github.aakira.napier.Napier.e
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,11 +50,12 @@ class LoginElderViewModel(
         viewModelScope.launch {
             elderInfoRepository.getEldersV2()
                 .onSuccess { data ->
-                    _loginElderUiState.update { state ->
-                        state.copy(
-                            eldersList = data.map { it.toLoginElderData() },
-                        )
-                    }
+                    if (data.isNotEmpty())
+                        _loginElderUiState.update { state ->
+                            state.copy(
+                                eldersList = data.map { it.toLoginElderData() },
+                            )
+                        }
                 }.onFailure { error ->
                 }
         }
