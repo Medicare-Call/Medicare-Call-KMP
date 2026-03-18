@@ -48,12 +48,11 @@ class SettingsMyDataViewModel(
         }
     }
 
-    fun deleteUser() {
+    fun deleteUser(onSuccess: () -> Unit, onError: (Throwable) -> Unit) {
         viewModelScope.launch {
             memberDeleteRepository.deleteMember()
-                .onSuccess {
-                    userRepository.logout()
-                }
+                .onSuccess { onSuccess() }
+                .onFailure { onError(it) }
         }
     }
 }

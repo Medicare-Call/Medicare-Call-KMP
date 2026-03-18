@@ -77,7 +77,21 @@ fun SettingsMyDataScreen(
         onBackClick = onBack,
         onEditClick = navigateToUserInfoSetting,
         onLogoutClick = { showLogoutDialog = true },
-        onServiceWithdrawClick = { viewModel.deleteUser() },
+        onServiceWithdrawClick = {
+            viewModel.deleteUser(
+                onSuccess = {
+                    viewModel.logout(
+                        onSuccess = {
+                            showLogoutDialog = false
+                            navigateToLoginAfterLogout()
+                        },
+                        onError = { error ->
+                        },
+                    )
+                },
+                onError = {},
+            )
+        },
         onLogoutDismiss = { showLogoutDialog = false },
         onLogoutConfirm = {
             viewModel.logout(
