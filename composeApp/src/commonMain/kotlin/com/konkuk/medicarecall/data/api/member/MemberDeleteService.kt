@@ -4,6 +4,6 @@ import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.DELETE
 
 interface MemberDeleteService {
-    @DELETE("member}")
+    @DELETE("member")
     suspend fun deleteMember(): Response<Unit>
 }
