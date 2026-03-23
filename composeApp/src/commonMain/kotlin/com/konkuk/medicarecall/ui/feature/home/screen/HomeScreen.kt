@@ -1,31 +1,21 @@
 package com.konkuk.medicarecall.ui.feature.home.screen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -43,29 +33,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.konkuk.medicarecall.resources.Res
-import com.konkuk.medicarecall.resources.*
 import com.konkuk.medicarecall.domain.model.ElderInfo
 import com.konkuk.medicarecall.domain.model.HomeSleep
+import com.konkuk.medicarecall.domain.model.type.TotalStatusType
+import com.konkuk.medicarecall.domain.util.now
+import com.konkuk.medicarecall.resources.Res
+import com.konkuk.medicarecall.resources.char_attention
+import com.konkuk.medicarecall.resources.char_good
+import com.konkuk.medicarecall.resources.char_warning
 import com.konkuk.medicarecall.ui.common.component.NameBar
 import com.konkuk.medicarecall.ui.common.component.NameDropdown
-import com.konkuk.medicarecall.ui.feature.home.component.CareCallFloatingButton
 import com.konkuk.medicarecall.ui.feature.home.component.CareCallSnackBar
-import com.konkuk.medicarecall.ui.feature.home.component.HomeGlucoseLevelContainer
-import com.konkuk.medicarecall.ui.feature.home.component.HomeMealContainer
-import com.konkuk.medicarecall.ui.feature.home.component.HomeMedicineContainer
-import com.konkuk.medicarecall.ui.feature.home.component.HomeSleepContainer
-import com.konkuk.medicarecall.ui.feature.home.component.HomeStateHealthContainer
-import com.konkuk.medicarecall.ui.feature.home.component.HomeStateMentalContainer
+import com.konkuk.medicarecall.ui.feature.home.component.DateBar
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.HomeUiState
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.HomeViewModel
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.MedicineUiState
+import com.konkuk.medicarecall.ui.theme.Black
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
+import com.konkuk.medicarecall.ui.theme.gray5
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -187,71 +178,11 @@ fun HomeScreenLayout(
         MediCareCallTheme.colors.gray3
     }
 
-    val summaryTitleColor =
-        if (hasSummaryData) MediCareCallTheme.colors.g50 else MediCareCallTheme.colors.white
-    val summaryBodyColor =
-        if (hasSummaryData) MediCareCallTheme.colors.g50 else MediCareCallTheme.colors.white
     val summaryText = if (hasSummaryData) homeUiState.balloonMessage else "아직 기록되지 않았어요."
 
     Scaffold(
 
         contentWindowInsets = WindowInsets(0),
-        floatingActionButton = {
-            Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.padding(end = 16.dp, bottom = 16.dp),
-            ) {
-                // 세부 FAB들
-                AnimatedVisibility(visible = expanded) {
-                    Column(
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                    ) {
-                        CareCallFloatingButton(
-                            modifier = modifier,
-                            onClick = {
-                                onFabClick()
-                                immediateCall("FIRST")
-                            },
-                            careCallOption = "FIRST",
-                            text = "1차",
-                        )
-                        CareCallFloatingButton(
-                            modifier = modifier,
-                            onClick = {
-                                onFabClick()
-                                immediateCall("SECOND")
-                            },
-                            careCallOption = "SECOND",
-                            text = "2차",
-                        )
-                        CareCallFloatingButton(
-                            modifier = modifier,
-                            onClick = {
-                                onFabClick()
-                                immediateCall("THIRD")
-                            },
-                            careCallOption = "THIRD",
-                            text = "3차",
-                        )
-                    }
-                }
-
-                // 메인 FAB
-                FloatingActionButton(
-                    onClick = { expanded = !expanded },
-                    containerColor = MediCareCallTheme.colors.main,
-                    contentColor = MediCareCallTheme.colors.white,
-                    shape = CircleShape,
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_carecall),
-                        contentDescription = "메인 FAB",
-                    )
-                }
-            }
-        },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
@@ -277,6 +208,9 @@ fun HomeScreenLayout(
                     onDropdownClick = onDropdownClick,
                     notificationCount = homeUiState.unreadNotification ?: 0,
                     navigateToAlarm = navigateToAlarm,
+                )
+                DateBar(
+                    day = LocalDate.now(),
                 )
                 val scope = rememberCoroutineScope()
 
@@ -324,84 +258,69 @@ fun HomeScreenLayout(
 
                             // 오늘의 건강 통계
                             Text(
-                                text = "오늘의 건강 통계",
-                                style = MediCareCallTheme.typography.SB_18,
-                                color = MediCareCallTheme.colors.gray6,
+                                text = "건강 통계",
+                                style = MediCareCallTheme.typography.R_14,
+                                color = MediCareCallTheme.colors.gray8,
+                            )
+                            Spacer(Modifier.height(10.dp))
+                            Text("타이틀 예시 (변경할것)", color = Black, style = MediCareCallTheme.typography.B_20)
+                            Spacer(Modifier.height(15.dp))
+                            Text(summaryText, style = MediCareCallTheme.typography.R_14, color = gray5)
+
+                            Spacer(Modifier.height(31.dp))
+                            Image(
+                                painter = painterResource(
+                                    when (homeUiState.totalStatus) {
+                                        TotalStatusType.GOOD -> Res.drawable.char_good
+                                        TotalStatusType.ATTENTION -> Res.drawable.char_attention
+                                        TotalStatusType.WARNING -> Res.drawable.char_warning
+                                    },
+                                ),
+                                contentDescription = "상태",
+                                Modifier.width(200.dp).align(Alignment.CenterHorizontally),
                             )
 
-                            Spacer(Modifier.height(20.dp))
-
-                            // 초록색 한 줄 요약 카드
-                            Card(
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = CardDefaults.cardColors(containerColor = cardBackgroundColor),
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(20.dp),
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Image(
-                                            painter = painterResource(Res.drawable.char_medi),
-                                            contentDescription = "요약 아이콘",
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(
-                                            text = "한 줄 요약",
-                                            style = MediCareCallTheme.typography.B_20,
-                                            color = summaryTitleColor,
-                                        )
-                                    }
-                                    Spacer(Modifier.height(30.dp))
-                                    Text(
-                                        text = summaryText,
-                                        style = MediCareCallTheme.typography.R_16,
-                                        color = summaryBodyColor,
-                                    )
-                                }
-                            }
-
                             // 건강 항목별 상세 카드
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                            ) {
-                                Spacer(Modifier.height(30.dp))
-                                HomeMealContainer(
-                                    breakfastEaten = homeUiState.breakfastEaten,
-                                    lunchEaten = homeUiState.lunchEaten,
-                                    dinnerEaten = homeUiState.dinnerEaten,
-                                    onClick = navigateToMealDetailScreen,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                HomeMedicineContainer(
-                                    medicines = homeUiState.medicines,
-                                    onClick = navigateToMedicineDetailScreen,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                val sleepData = homeUiState.sleep
-                                HomeSleepContainer(
-                                    totalSleepHours = sleepData?.totalSleepHours ?: 0,
-                                    totalSleepMinutes = sleepData?.totalSleepMinutes ?: 0,
-                                    isRecorded = (sleepData?.totalSleepHours ?: 0) > 0 || (sleepData?.totalSleepMinutes ?: 0) > 0,
-                                    onClick = navigateToSleepDetailScreen,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                HomeStateHealthContainer(
-                                    healthStatus = homeUiState.healthStatus,
-                                    onClick = navigateToStateHealthDetailScreen,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                HomeStateMentalContainer(
-                                    mentalStatus = homeUiState.mentalStatus,
-                                    onClick = navigateToStateMentalDetailScreen,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                HomeGlucoseLevelContainer(
-                                    glucoseLevelAverageToday = homeUiState.glucoseLevelAverageToday,
-                                    onClick = navigateToGlucoseDetailScreen,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                            }
+//                            Column(
+//                                modifier = Modifier.fillMaxWidth(),
+//                            ) {
+//                                Spacer(Modifier.height(30.dp))
+//                                HomeMealContainer(
+//                                    breakfastEaten = homeUiState.breakfastEaten,
+//                                    lunchEaten = homeUiState.lunchEaten,
+//                                    dinnerEaten = homeUiState.dinnerEaten,
+//                                    onClick = navigateToMealDetailScreen,
+//                                )
+//                                Spacer(Modifier.height(12.dp))
+//                                HomeMedicineContainer(
+//                                    medicines = homeUiState.medicines,
+//                                    onClick = navigateToMedicineDetailScreen,
+//                                )
+//                                Spacer(Modifier.height(12.dp))
+//                                val sleepData = homeUiState.sleep
+//                                HomeSleepContainer(
+//                                    totalSleepHours = sleepData?.totalSleepHours ?: 0,
+//                                    totalSleepMinutes = sleepData?.totalSleepMinutes ?: 0,
+//                                    isRecorded = (sleepData?.totalSleepHours ?: 0) > 0 || (sleepData?.totalSleepMinutes ?: 0) > 0,
+//                                    onClick = navigateToSleepDetailScreen,
+//                                )
+//                                Spacer(Modifier.height(12.dp))
+//                                HomeStateHealthContainer(
+//                                    healthStatus = homeUiState.healthStatus,
+//                                    onClick = navigateToStateHealthDetailScreen,
+//                                )
+//                                Spacer(Modifier.height(12.dp))
+//                                HomeStateMentalContainer(
+//                                    mentalStatus = homeUiState.mentalStatus,
+//                                    onClick = navigateToStateMentalDetailScreen,
+//                                )
+//                                Spacer(Modifier.height(12.dp))
+//                                HomeGlucoseLevelContainer(
+//                                    glucoseLevelAverageToday = homeUiState.glucoseLevelAverageToday,
+//                                    onClick = navigateToGlucoseDetailScreen,
+//                                )
+//                                Spacer(Modifier.height(12.dp))
+//                            }
                         }
                     }
                 }

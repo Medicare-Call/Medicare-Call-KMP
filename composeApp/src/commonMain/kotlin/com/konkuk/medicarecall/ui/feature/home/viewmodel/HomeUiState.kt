@@ -1,6 +1,7 @@
 package com.konkuk.medicarecall.ui.feature.home.viewmodel
 
 import com.konkuk.medicarecall.domain.model.HomeSleep
+import com.konkuk.medicarecall.domain.model.type.TotalStatusType
 
 data class HomeUiState(
     val isLoading: Boolean = true,
@@ -19,6 +20,7 @@ data class HomeUiState(
     val mentalStatus: String? = null,
     val glucoseLevelAverageToday: Int? = null,
     val unreadNotification: Int? = null,
+    val totalStatus: TotalStatusType = TotalStatusType.GOOD
 ) {
     companion object {
         val EMPTY = HomeUiState()
