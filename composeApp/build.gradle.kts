@@ -49,6 +49,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.1")
 
             // Navigation (KMP)
             implementation(libs.navigation.compose)
@@ -157,6 +158,9 @@ compose.resources {
 dependencies {
     // Detekt formatting plugin
     detektPlugins(libs.detekt.formatting)
+
+    // Compose preview tooling for Android Studio
+    add("debugImplementation", "org.jetbrains.compose.ui:ui-tooling:1.10.1")
 
     // Firebase (Android only)
     add("androidMainImplementation", platform(libs.firebase.bom))
