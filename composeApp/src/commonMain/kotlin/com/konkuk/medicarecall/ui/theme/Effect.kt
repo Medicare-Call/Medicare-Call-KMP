@@ -3,12 +3,12 @@ package com.konkuk.medicarecall.ui.theme
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 @Immutable
@@ -62,18 +62,19 @@ val LocalMediCareCallShadowProvider = staticCompositionLocalOf { defaultMediCare
 fun Modifier.figmaShadow(
     group: ShadowGroup,
     cornerRadius: Dp = 14.dp,
-): Modifier = this.drawWithCache {
-    val radiusPx = cornerRadius.toPx()
+): Modifier {
+    val shape = RoundedCornerShape(cornerRadius)
 
-    onDrawWithContent {
-        group.layers.forEach { layer ->
-            drawRoundRect(
-                color = layer.color,
-                topLeft = Offset(layer.offsetX.toPx(), layer.offsetY.toPx()),
-                size = Size(size.width, size.height),
-                cornerRadius = CornerRadius(radiusPx, radiusPx),
+    return group.layers.fold(this) { current, layer ->
+        current.dropShadow(
+            shape = shape,
+            shadow = Shadow(
+                radius = layer.blurRadius,
+                color = layer.color.copy(alpha = 1f),
+                spread = 0.dp,
+                offset = DpOffset(layer.offsetX, layer.offsetY),
+                alpha = layer.color.alpha,
             )
-        }
-        drawContent()
+        )
     }
 }
