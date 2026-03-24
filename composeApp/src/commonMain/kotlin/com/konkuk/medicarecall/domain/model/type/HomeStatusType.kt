@@ -1,7 +1,8 @@
 package com.konkuk.medicarecall.domain.model.type
 
-enum class TotalStatusType(val title: String) {
+enum class HomeStatusType(val title: String) {
     GOOD("양호"),
     ATTENTION("관심"),
-    WARNING("주의")
+    WARNING("주의"),
+    UNRECORDED("미기록")
 }

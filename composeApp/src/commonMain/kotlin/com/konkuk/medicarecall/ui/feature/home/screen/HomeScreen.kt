@@ -4,9 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -37,7 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.domain.model.ElderInfo
 import com.konkuk.medicarecall.domain.model.HomeSleep
-import com.konkuk.medicarecall.domain.model.type.TotalStatusType
+import com.konkuk.medicarecall.domain.model.type.HomeStatusType
+import com.konkuk.medicarecall.domain.model.type.MedicationTime
 import com.konkuk.medicarecall.domain.util.now
 import com.konkuk.medicarecall.resources.Res
 import com.konkuk.medicarecall.resources.char_attention
@@ -47,6 +52,9 @@ import com.konkuk.medicarecall.ui.common.component.NameBar
 import com.konkuk.medicarecall.ui.common.component.NameDropdown
 import com.konkuk.medicarecall.ui.feature.home.component.CareCallSnackBar
 import com.konkuk.medicarecall.ui.feature.home.component.DateBar
+import com.konkuk.medicarecall.ui.feature.home.component.HomeRemarksCard
+import com.konkuk.medicarecall.ui.feature.home.component.HomeStatusDetailItem
+import com.konkuk.medicarecall.ui.feature.home.component.HomeSymptomsCard
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.HomeUiState
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.HomeViewModel
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.MedicineUiState
@@ -129,7 +137,9 @@ fun HomeScreen(
         immediateCall = {
             viewModel.callImmediate(it)
         },
-    )
+        onSelectTime = viewModel::selectTime,
+
+        )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -156,6 +166,7 @@ fun HomeScreenLayout(
     onFabClick: () -> Unit,
     onRefresh: () -> Unit,
     immediateCall: (String) -> Unit,
+    onSelectTime: (MedicationTime) -> Unit,
 ) {
     val elderNameList = remember(elderInfoList) {
         elderInfoList.map { it.name }
@@ -252,7 +263,7 @@ fun HomeScreenLayout(
                             modifier = Modifier
                                 .verticalScroll(rememberScrollState())
                                 .fillMaxSize()
-                                .padding(horizontal = 20.dp),
+                                .padding(horizontal = 16.dp),
                         ) {
                             Spacer(Modifier.height(20.dp))
 
@@ -271,14 +282,40 @@ fun HomeScreenLayout(
                             Image(
                                 painter = painterResource(
                                     when (homeUiState.totalStatus) {
-                                        TotalStatusType.GOOD -> Res.drawable.char_good
-                                        TotalStatusType.ATTENTION -> Res.drawable.char_attention
-                                        TotalStatusType.WARNING -> Res.drawable.char_warning
+                                        HomeStatusType.GOOD -> Res.drawable.char_good
+                                        HomeStatusType.ATTENTION -> Res.drawable.char_attention
+                                        HomeStatusType.WARNING -> Res.drawable.char_warning
+                                        else -> Res.drawable.char_good
+
                                     },
                                 ),
                                 contentDescription = "상태",
-                                Modifier.width(200.dp).align(Alignment.CenterHorizontally),
+                                Modifier.fillMaxWidth().padding(horizontal = 80.dp).align(Alignment.CenterHorizontally),
                             )
+
+                            HomeStatusDetailItem(
+                                selectedTime = homeUiState.selectedTime,
+                                onSelectTime,
+                                mealStatus = homeUiState.mealStatus,
+                                medicineStatus = homeUiState.medicineStatus,
+                                sleepStatus = homeUiState.sleepStatus,
+                            )
+                            Spacer(Modifier.height(10.dp))
+
+                            Row(Modifier.height(IntrinsicSize.Min).padding(bottom = 92.dp)) {
+                                HomeRemarksCard(
+                                    remarkStatus = HomeStatusType.GOOD,
+                                    remarkTitle = "감기",
+                                    remarkDescription = "어제 외출 후 기침 조금",
+                                    modifier = Modifier.weight(1f),
+                                )
+                                Spacer(Modifier.width(8.dp))
+                                HomeSymptomsCard(
+                                    symptomsTitle = "무릎 통증",
+                                    symptomsDescription = "목요일, 금요일(오늘)",
+                                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                                )
+                            }
 
                             // 건강 항목별 상세 카드
 //                            Column(
@@ -384,6 +421,7 @@ fun PreviewHomeScreen() {
             immediateCall = {},
             onRefresh = {},
             onFabClick = {},
+            onSelectTime = {},
         )
     }
 }
@@ -432,6 +470,7 @@ fun PreviewHomeScreenUnrecorded() {
             navigateToStateMentalDetailScreen = { },
             navigateToGlucoseDetailScreen = { },
             navigateToAlarm = { },
+            onSelectTime = {},
         )
     }
 }

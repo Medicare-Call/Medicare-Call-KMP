@@ -9,6 +9,8 @@ import com.konkuk.medicarecall.data.repository.ElderIdRepository
 import com.konkuk.medicarecall.data.repository.EldersHealthInfoRepository
 import com.konkuk.medicarecall.data.repository.HomeRepository
 import com.konkuk.medicarecall.domain.model.ElderInfo
+import com.konkuk.medicarecall.domain.model.type.MedicationTime
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,12 +28,18 @@ class HomeViewModel(
     private val eldersHealthInfoRepository: EldersHealthInfoRepository,
     private val elderIdRepository: ElderIdRepository,
 ) : ViewModel() {
+    private val _homeUiState = MutableStateFlow(HomeUiState.EMPTY)
+    val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
     // 이름 업데이트 수신
     private val _updatedName: StateFlow<String?> =
         savedStateHandle.getStateFlow("ELDER_NAME_UPDATED", null)
 
     val updatedName: StateFlow<String?> = _updatedName
+
+    fun selectTime(time: MedicationTime) {
+        _homeUiState.update { it.copy(selectedTime = time) }
+    }
 
     fun clearUpdatedName() {
         savedStateHandle.remove<String>("ELDER_NAME_UPDATED")
@@ -66,8 +74,6 @@ class HomeViewModel(
     }
 
     // 홈 화면 상태 (isLoading 포함)
-    private val _homeUiState = MutableStateFlow(HomeUiState.EMPTY)
-    val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
     // 어르신 전체 목록
     private val _elderInfoList = MutableStateFlow<List<ElderInfo>>(emptyList())
