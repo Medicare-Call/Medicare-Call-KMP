@@ -19,19 +19,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
-import com.konkuk.medicarecall.resources.*
+import com.konkuk.medicarecall.resources.ic_settings_back
 import com.konkuk.medicarecall.ui.feature.settings.component.SettingsTopAppBar
-import com.konkuk.medicarecall.domain.model.PushNotification
-import com.konkuk.medicarecall.ui.feature.settings.notification.component.SwitchButton
 import com.konkuk.medicarecall.ui.feature.settings.mydata.viewmodel.SettingsEditMyDataViewModel
+import com.konkuk.medicarecall.ui.feature.settings.notification.component.SwitchButton
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -50,21 +49,7 @@ fun SettingsNotificationScreen(
         uiState.myDataInfo?.let { viewModel.initializeNotificationSettings(it) }
     }
 
-    val updateSettings = {
-        uiState.myDataInfo?.let { info ->
-            viewModel.updateUserData(
-                userInfo = info.copy(
-                    pushNotification = PushNotification(
-                        all = if (uiState.masterChecked) "ON" else "OFF",
-                        carecallCompleted = if (uiState.completeChecked) "ON" else "OFF",
-                        healthAlert = if (uiState.abnormalChecked) "ON" else "OFF",
-                        carecallMissed = if (uiState.missedChecked) "ON" else "OFF",
-                    ),
-                ),
-            )
-        }
-    }
-
+    // ViewModel 내부에서 새 체크 상태 기준으로 저장
     if (uiState.isLoading && uiState.myDataInfo == null) {
         Box(
             modifier = modifier
@@ -112,8 +97,10 @@ fun SettingsNotificationScreen(
                 SwitchButton(
                     checked = uiState.masterChecked,
                     onCheckedChange = { isChecked ->
-                        viewModel.setMasterChecked(isChecked)
-                        updateSettings()
+                        viewModel.updateNotificationSettingByType(
+                            type = "master",
+                            checked = isChecked,
+                        )
                     },
                 )
             }
@@ -130,8 +117,10 @@ fun SettingsNotificationScreen(
                 SwitchButton(
                     checked = uiState.completeChecked,
                     onCheckedChange = { isChecked ->
-                        viewModel.setCompleteChecked(isChecked)
-                        updateSettings()
+                        viewModel.updateNotificationSettingByType(
+                            type = "complete",
+                            checked = isChecked,
+                        )
                     },
                 )
             }
@@ -148,8 +137,10 @@ fun SettingsNotificationScreen(
                 SwitchButton(
                     checked = uiState.abnormalChecked,
                     onCheckedChange = { isChecked ->
-                        viewModel.setAbnormalChecked(isChecked)
-                        updateSettings()
+                        viewModel.updateNotificationSettingByType(
+                            type = "abnormal",
+                            checked = isChecked,
+                        )
                     },
                 )
             }
@@ -166,8 +157,10 @@ fun SettingsNotificationScreen(
                 SwitchButton(
                     checked = uiState.missedChecked,
                     onCheckedChange = { isChecked ->
-                        viewModel.setMissedChecked(isChecked)
-                        updateSettings()
+                        viewModel.updateNotificationSettingByType(
+                            type = "missed",
+                            checked = isChecked,
+                        )
                     },
                 )
             }

@@ -51,6 +51,9 @@ kotlin {
             implementation(compose.components.resources)
             implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.1")
 
+            // napier Log
+            implementation("io.github.aakira:napier:2.7.1")
+
             // Navigation (KMP)
             implementation(libs.navigation.compose)
 

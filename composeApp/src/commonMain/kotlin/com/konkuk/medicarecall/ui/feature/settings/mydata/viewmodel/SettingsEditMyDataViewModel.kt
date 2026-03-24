@@ -3,6 +3,7 @@ package com.konkuk.medicarecall.ui.feature.settings.mydata.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.konkuk.medicarecall.data.repository.UserRepository
+import com.konkuk.medicarecall.domain.model.PushNotification
 import com.konkuk.medicarecall.domain.model.UserInfo
 import com.konkuk.medicarecall.domain.model.type.GenderType
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,7 +57,12 @@ class SettingsEditMyDataViewModel(
             try {
                 userRepository.updateMyInfo(userInfo)
                     .onSuccess {
-                        _uiState.update { it.copy(isUpdateSuccess = true) }
+                        _uiState.update {
+                            it.copy(
+                                isUpdateSuccess = true,
+                                myDataInfo = userInfo, // 저장 성공 시 최신 데이터로 동기화
+                            )
+                        }
                         onComplete?.invoke()
                     }
                     .onFailure { e ->
@@ -72,11 +78,6 @@ class SettingsEditMyDataViewModel(
         }
     }
 
-    // 화면 진입 시나 필요 시 상태 초기화
-    fun resetStatus() {
-        _uiState.update { it.copy(isUpdateSuccess = false, errorMessage = null) }
-    }
-
     fun initializeNotificationSettings(myDataInfo: UserInfo) {
         val masterOn = myDataInfo.pushNotification.isAllEnabled
         _uiState.update {
@@ -89,42 +90,70 @@ class SettingsEditMyDataViewModel(
         }
     }
 
-    fun setMasterChecked(value: Boolean) {
-        _uiState.update {
-            it.copy(
-                masterChecked = value,
-                completeChecked = value,
-                abnormalChecked = value,
-                missedChecked = value,
-            )
-        }
-    }
+    // 토글 타입별로 새 상태를 계산하고 서버에 반영하는 함수
+    fun updateNotificationSettingByType(
+        type: String,
+        checked: Boolean,
+    ) {
+        val currentInfo = uiState.value.myDataInfo ?: return
+        val currentState = uiState.value
 
-    fun setCompleteChecked(value: Boolean) {
-        _uiState.update {
-            it.copy(
-                completeChecked = value,
-                masterChecked = if (!value) false else it.masterChecked,
-            )
-        }
-    }
+        val newMasterChecked: Boolean
+        val newCompleteChecked: Boolean
+        val newAbnormalChecked: Boolean
+        val newMissedChecked: Boolean
 
-    fun setAbnormalChecked(value: Boolean) {
-        _uiState.update {
-            it.copy(
-                abnormalChecked = value,
-                masterChecked = if (!value) false else it.masterChecked,
-            )
-        }
-    }
+        when (type) {
+            "master" -> {
+                newMasterChecked = checked
+                newCompleteChecked = checked
+                newAbnormalChecked = checked
+                newMissedChecked = checked
+            }
 
-    fun setMissedChecked(value: Boolean) {
+            "complete" -> {
+                newCompleteChecked = checked
+                newAbnormalChecked = currentState.abnormalChecked
+                newMissedChecked = currentState.missedChecked
+                newMasterChecked = checked && newAbnormalChecked && newMissedChecked
+            }
+
+            "abnormal" -> {
+                newCompleteChecked = currentState.completeChecked
+                newAbnormalChecked = checked
+                newMissedChecked = currentState.missedChecked
+                newMasterChecked = newCompleteChecked && checked && newMissedChecked
+            }
+
+            "missed" -> {
+                newCompleteChecked = currentState.completeChecked
+                newAbnormalChecked = currentState.abnormalChecked
+                newMissedChecked = checked
+                newMasterChecked = newCompleteChecked && newAbnormalChecked && checked
+            }
+
+            else -> return
+        }
+
         _uiState.update {
             it.copy(
-                missedChecked = value,
-                masterChecked = if (!value) false else it.masterChecked,
+                masterChecked = newMasterChecked,
+                completeChecked = newCompleteChecked,
+                abnormalChecked = newAbnormalChecked,
+                missedChecked = newMissedChecked,
             )
         }
+
+        val updatedUserInfo = currentInfo.copy(
+            pushNotification = PushNotification(
+                all = if (newMasterChecked) "ON" else "OFF",
+                carecallCompleted = if (newCompleteChecked) "ON" else "OFF",
+                healthAlert = if (newAbnormalChecked) "ON" else "OFF",
+                carecallMissed = if (newMissedChecked) "ON" else "OFF",
+            ),
+        )
+
+        updateUserData(updatedUserInfo)
     }
 
     fun initializeFormData(myDataInfo: UserInfo) {

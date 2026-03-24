@@ -8,6 +8,7 @@ import com.konkuk.medicarecall.domain.model.ElderInfo
 import com.konkuk.medicarecall.domain.model.type.ElderResidence
 import com.konkuk.medicarecall.domain.model.type.GenderType
 import com.konkuk.medicarecall.domain.model.type.Relationship
+import com.konkuk.medicarecall.ui.common.util.formatAsDate
 
 fun List<ElderResponseDto>.toModels(): List<Elder> = this.map { it.toModel() }
 
@@ -25,7 +26,7 @@ fun ElderResponseDto.toModel(): Elder = Elder(
 
 fun Elder.toElderBulkRequestDto(): ElderBulkRegisterRequestDto.ElderInfo = ElderBulkRegisterRequestDto.ElderInfo(
     name = this.info.name,
-    birthDate = this.info.birthDate,
+    birthDate = this.info.birthDate.formatAsDate(),
     gender = this.info.gender.name,
     phone = this.info.phone,
     relationship = this.info.relationship.name,
