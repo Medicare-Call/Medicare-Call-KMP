@@ -126,6 +126,7 @@ fun NavGraph(
             navigateToRegisterElderHealth = navigator::navigateToLoginRegisterElderHealth,
             navigateToCareCallSetting = { navController.navigate(Route.LoginCareCallSetting) },
             navigateToCareCallSettingWithPopUpTo = navigator::navigateToLoginCareCallSetting,
+            navigateToPromotion = navigator::navigateToLoginPromotion,
             navigateToFinish = navigator::navigateToLoginFinish,
             getSharedLoginInfoViewModel = { backStackEntry ->
                 backStackEntry.sharedViewModel<LoginInfoViewModel, Route.LoginStart>(navController)

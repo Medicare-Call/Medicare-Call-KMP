@@ -8,6 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.konkuk.medicarecall.ui.feature.login.calltime.screen.CallTimeScreen
 import com.konkuk.medicarecall.ui.feature.login.elder.screen.LoginElderMedInfoScreen
+import com.konkuk.medicarecall.ui.feature.login.elder.screen.LoginElderPromotionScreen
 import com.konkuk.medicarecall.ui.feature.login.elder.screen.LoginElderScreen
 import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderViewModel
 import com.konkuk.medicarecall.ui.feature.login.myinfo.screen.LoginMyInfoScreen
@@ -50,6 +51,10 @@ fun NavController.navigateToLoginFinish() {
     navigate(Route.LoginFinish)
 }
 
+fun NavController.navigateToLoginPromotion() {
+    navigate(Route.LoginPromotion)
+}
+
 fun NavGraphBuilder.loginNavGraph(
     popBackStack: () -> Unit,
     navigateToMainAfterLogin: () -> Unit,
@@ -61,6 +66,7 @@ fun NavGraphBuilder.loginNavGraph(
     navigateToRegisterElderHealth: () -> Unit,
     navigateToCareCallSetting: () -> Unit,
     navigateToCareCallSettingWithPopUpTo: () -> Unit,
+    navigateToPromotion: () -> Unit,
     navigateToFinish: () -> Unit,
     getSharedLoginInfoViewModel: @Composable (NavBackStackEntry) -> LoginInfoViewModel,
     getSharedLoginElderViewModel: @Composable (NavBackStackEntry) -> LoginElderViewModel,
@@ -138,6 +144,13 @@ fun NavGraphBuilder.loginNavGraph(
     composable<Route.LoginFinish> {
         LoginFinishScreen(
             navigateToMain = navigateToMainAfterLogin,
+        )
+    }
+
+    composable<Route.LoginPromotion> {
+        LoginElderPromotionScreen(
+            onBack = popBackStack,
+            navigateToElderRegister = navigateToRegisterElder
         )
     }
 }
