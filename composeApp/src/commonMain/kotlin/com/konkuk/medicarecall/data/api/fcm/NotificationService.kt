@@ -1,8 +1,10 @@
 package com.konkuk.medicarecall.data.api.fcm
 
 import com.konkuk.medicarecall.data.dto.request.NotificationStatusRequestDto
+import com.konkuk.medicarecall.data.dto.response.NotificationPageResponseDto
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
+import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
 
@@ -12,4 +14,7 @@ interface NotificationService { // 알림 관련
         @Path("notificationId") notificationId: String,
         @Body status: NotificationStatusRequestDto,
     ): Response<Unit>
+
+    @GET("notifications")
+    suspend fun getNotifications(): Response<List<NotificationPageResponseDto>>
 }

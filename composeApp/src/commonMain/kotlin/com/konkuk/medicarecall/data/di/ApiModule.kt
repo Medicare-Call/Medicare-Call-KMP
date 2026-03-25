@@ -30,8 +30,10 @@ import com.konkuk.medicarecall.data.api.elders.createStatisticsService
 import com.konkuk.medicarecall.data.api.elders.createSubscribeService
 import com.konkuk.medicarecall.data.api.fcm.FcmUpdateService
 import com.konkuk.medicarecall.data.api.fcm.FcmValidationService
+import com.konkuk.medicarecall.data.api.fcm.NotificationService
 import com.konkuk.medicarecall.data.api.fcm.createFcmUpdateService
 import com.konkuk.medicarecall.data.api.fcm.createFcmValidationService
+import com.konkuk.medicarecall.data.api.fcm.createNotificationService
 import com.konkuk.medicarecall.data.api.member.MemberRegisterService
 import com.konkuk.medicarecall.data.api.member.SettingService
 import com.konkuk.medicarecall.data.api.member.createMemberRegisterService
@@ -120,4 +122,8 @@ class ApiModule {
     @Single
     fun provideFcmUpdateService(ktorfit: Ktorfit): FcmUpdateService =
         ktorfit.createFcmUpdateService()
+
+    @Single
+    fun provideNotificationService(ktorfit: Ktorfit): NotificationService =
+        ktorfit.createNotificationService()
 }
