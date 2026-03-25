@@ -32,6 +32,9 @@ sealed interface Route {
     @Serializable
     data object LoginFinish : Route
 
+    @Serializable
+    data object LoginPromotion: Route
+
     // 홈 (하루 요약)
     @Serializable
     data class MealDetail(val elderId: Long) : Route
