@@ -35,7 +35,7 @@ fun NameBar(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .padding(horizontal = 16.dp, vertical = 16.dp)
                 .background(Color.White),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -52,7 +52,7 @@ fun NameBar(
                     style = MediCareCallTheme.typography.SB_24,
                     color = MediCareCallTheme.colors.black,
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(12.dp))
                 Icon(
                     modifier = Modifier.size(18.dp),
                     painter = painterResource(Res.drawable.ic_arrow_down_big),
