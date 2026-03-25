@@ -50,7 +50,7 @@ class ApiModule {
         ktorfit.createRefreshService()
 
     @Single
-    fun authService(ktorfit: Ktorfit): AuthService =
+    fun authService(@AuthKtorfit ktorfit: Ktorfit): AuthService =
         ktorfit.createAuthService()
 
     @Single
@@ -58,7 +58,7 @@ class ApiModule {
         ktorfit.createEldersInfoService()
 
     @Single
-    fun memberRegisterService(ktorfit: Ktorfit): MemberRegisterService =
+    fun memberRegisterService(@AuthKtorfit ktorfit: Ktorfit): MemberRegisterService =
         ktorfit.createMemberRegisterService()
 
     @Single

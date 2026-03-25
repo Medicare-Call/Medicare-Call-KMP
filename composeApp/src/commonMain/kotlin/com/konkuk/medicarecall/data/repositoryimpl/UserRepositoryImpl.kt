@@ -4,6 +4,7 @@ import com.konkuk.medicarecall.data.api.auth.AuthService
 import com.konkuk.medicarecall.data.api.member.SettingService
 import com.konkuk.medicarecall.data.mapper.UserMapper
 import com.konkuk.medicarecall.data.repository.DataStoreRepository
+import com.konkuk.medicarecall.data.repository.ElderIdRepository
 import com.konkuk.medicarecall.data.repository.UserRepository
 import com.konkuk.medicarecall.data.util.handleNullableResponse
 import com.konkuk.medicarecall.data.util.handleResponse
@@ -15,6 +16,7 @@ class UserRepositoryImpl(
     private val settingService: SettingService,
     private val authService: AuthService,
     private val tokenStore: DataStoreRepository,
+    private val elderIdRepository: ElderIdRepository,
 ) : UserRepository {
     override suspend fun getMyInfo() = runCatching {
         val responseDto = settingService.getMyInfo().handleResponse()
@@ -27,10 +29,18 @@ class UserRepositoryImpl(
         UserMapper.toDomain(responseDto)
     }
 
-    override suspend fun logout(): Result<Unit> = runCatching {
-        val refresh = tokenStore.getRefreshToken() ?: error("Refresh token is null")
-        authService.logout("Bearer $refresh").handleNullableResponse()
         // 성공/실패와 무관하게 로컬 토큰 제거(보안/UX 측면에서 권장)
+    override suspend fun logout(): Result<Unit> {
+        runCatching {
+            val refresh = tokenStore.getRefreshToken()
+            if (!refresh.isNullOrBlank()) {
+                authService.logout("Bearer $refresh").handleNullableResponse()
+            }
+        }
+
         tokenStore.clearTokens()
+        elderIdRepository.clearElderIds()
+
+        return Result.success(Unit)
     }
 }
