@@ -21,7 +21,7 @@ import com.konkuk.medicarecall.ui.feature.statistics.navigation.statisticsNavGra
 
 // ---- 헬퍼: 로그인 성공 후 인증 그래프 제거하고 main으로 ---
 fun NavHostController.navigateToMainAfterLogin() {
-    navigate(Route.LoginPromotion) {
+    navigate(MainTabRoute.Home) {
         popUpTo(0) { inclusive = true }
     }
 }

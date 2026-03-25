@@ -5,10 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,12 +23,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konkuk.medicarecall.resources.Res
-import com.konkuk.medicarecall.resources.ic_complete
+import com.konkuk.medicarecall.resources.ic_check_green
 import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.common.component.DefaultTextField
 import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderPromotionUiState
@@ -56,7 +59,7 @@ fun LoginElderPromotionScreen(
         onInputChanged = { viewModel.onPromotionCodeChange(it) },
         onConfirm = { viewModel.onConfirm() },
         onDismissRequest = { viewModel.onDismissRequest() },
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -74,7 +77,10 @@ private fun LoginElderPromotionScreenLayout(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
+            .background(MediCareCallTheme.colors.bg)
+            .systemBarsPadding()
+            .imePadding()
             .padding(horizontal = 20.dp),
     ) {
         LoginBackButton(onBack)
@@ -122,9 +128,9 @@ private fun LoginElderPromotionScreenLayout(
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             Icon(
-                                imageVector = vectorResource(Res.drawable.ic_complete),
+                                imageVector = vectorResource(Res.drawable.ic_check_green),
                                 contentDescription = "완료 아이콘",
-                                modifier = Modifier.size(55.dp),
+                                tint = Color.Unspecified,
                             )
                             Spacer(Modifier.height(15.5.dp))
                             Text(
