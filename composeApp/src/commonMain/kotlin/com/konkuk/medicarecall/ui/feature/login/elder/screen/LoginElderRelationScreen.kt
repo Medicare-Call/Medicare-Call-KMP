@@ -30,7 +30,6 @@ fun LoginElderRelationScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit = {},
     navigateToFinishRegister: () -> Unit = {},
-    viewModel: LoginElderViewModel = koinViewModel(),
 ) {
     var isComplete by rememberSaveable { mutableStateOf(false) }
     val scrollState = rememberScrollState()
