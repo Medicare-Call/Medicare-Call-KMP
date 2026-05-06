@@ -70,7 +70,7 @@ fun LoginFinishRegisterPreviousScreen(
                     .background(color = MediCareCallTheme.colors.gray1, shape = RoundedCornerShape(14.dp))
                     .clickable(
                         interactionSource,
-                        onClick = navigateToHome,
+                        onClick = navigateToHome, // 하루 요약 화면으로
                         indication = null,
                     ),
             ) {
@@ -83,11 +83,6 @@ fun LoginFinishRegisterPreviousScreen(
                         .align(Alignment.Center),
                 )
             }
-            CTAButton(
-                type = CTAButtonType.DISABLED,
-                text = "아니요, 없어요",
-                onClick = navigateToHome, // 하루 요약 화면으로
-            )
         }
     }
 }
