@@ -14,12 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -30,7 +26,7 @@ import com.konkuk.medicarecall.resources.pretendard_medium
 import com.konkuk.medicarecall.ui.model.AlarmModel
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.type.AlarmActionType
-import org.jetbrains.compose.resources.Font
+import org.jetbrains.compose.resources.Font as ResFont
 
 @Composable
 fun AlarmItem(
@@ -49,15 +45,19 @@ fun AlarmItem(
     ) {
         // 내용과 시간을 한 문장처럼 자연스럽게 렌더링
         val annotatedText = buildAnnotatedString {
-            withStyle(style = MediCareCallTheme.typography.R_15.toSpanStyle().copy(
-                color = MediCareCallTheme.colors.black
-            )) {
+            withStyle(
+                style = MediCareCallTheme.typography.R_15.toSpanStyle().copy(
+                    color = MediCareCallTheme.colors.black,
+                ),
+            ) {
                 append(model.message)
             }
             append(" ")
-            withStyle(style = MediCareCallTheme.typography.R_15.toSpanStyle().copy(
-                color = MediCareCallTheme.colors.gray4
-            )) {
+            withStyle(
+                style = MediCareCallTheme.typography.R_15.toSpanStyle().copy(
+                    color = MediCareCallTheme.colors.gray4,
+                ),
+            ) {
                 append(model.time)
             }
         }
@@ -92,9 +92,9 @@ fun AlarmItem(
                 Text(
                     text = buttonText,
                     color = buttonTextColor,
-                    fontFamily = FontFamily(Font(Res.font.pretendard_medium)),
+                    fontFamily = FontFamily(ResFont(Res.font.pretendard_medium)),
                     fontSize = 12.sp,
-                    lineHeight = 1.5.em
+                    lineHeight = 1.5.em,
                 )
             }
         }
