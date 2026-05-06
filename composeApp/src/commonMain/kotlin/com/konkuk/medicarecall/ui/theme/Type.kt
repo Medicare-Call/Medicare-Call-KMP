@@ -57,6 +57,8 @@ data class MediCareCallTypography(
     val R_15: TextStyle,
     val SB_14: TextStyle,
     val R_14: TextStyle,
+    val M_12: TextStyle,
+
 )
 
 @Composable
@@ -181,6 +183,12 @@ fun createMediCareCallTypography(): MediCareCallTypography {
             lineHeight = 1.5.em,
             letterSpacing = (0.01).em,
         ),
+        M_12 = TextStyle(
+            fontFamily = regular,
+            fontSize = 12.sp,
+            lineHeight = 1.5.em,
+            letterSpacing = (0.01).em,
+        ),
     )
 }
 
@@ -204,7 +212,8 @@ val defaultMediCareCallTypography = MediCareCallTypography(
     R_15 = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Normal, lineHeight = 1.5.em, letterSpacing = (0.01).em),
     SB_14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, lineHeight = 1.5.em, letterSpacing = (0.01).em),
     R_14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Normal, lineHeight = 1.5.em, letterSpacing = (0.01).em),
-)
+    M_12 = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Normal, lineHeight = 1.5.em, letterSpacing = (0.01).em),
+    )
 
 val LocalMedicareCallTypographyProvider = staticCompositionLocalOf { defaultMediCareCallTypography }
 
