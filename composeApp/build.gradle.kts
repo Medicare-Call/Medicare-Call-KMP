@@ -49,7 +49,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.1")
+            implementation("org.jetbrains.compose.components:components-ui-tooling-preview:1.10.1")
 
             // napier Log
             implementation("io.github.aakira:napier:2.7.1")
