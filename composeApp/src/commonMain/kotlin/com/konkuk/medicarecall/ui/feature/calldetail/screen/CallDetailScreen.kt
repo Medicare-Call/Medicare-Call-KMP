@@ -11,12 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
 import com.konkuk.medicarecall.resources.ic_check
 import com.konkuk.medicarecall.resources.ic_report_attention
 import com.konkuk.medicarecall.resources.ic_report_normal
+import com.konkuk.medicarecall.domain.util.now
 import com.konkuk.medicarecall.ui.common.component.TopAppBar
 import com.konkuk.medicarecall.ui.feature.calldetail.component.AudioPlayerCard
 import com.konkuk.medicarecall.ui.feature.calldetail.component.CareCallSummary
@@ -25,14 +26,26 @@ import com.konkuk.medicarecall.ui.feature.calldetail.component.MealSegmentedCont
 import com.konkuk.medicarecall.ui.feature.calldetail.component.SpecialNoteSection
 import com.konkuk.medicarecall.ui.feature.home.viewmodel.MedicineUiState
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CallDetailScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
+    onPrevDate: () -> Unit = {},
+    onNextDate: () -> Unit = {},
+    firstRecordDate: LocalDate? = null,
 ) {
+    val today = remember { LocalDate.now() }
+    val oldestDate = firstRecordDate ?: today
+    var selectedDate by remember { mutableStateOf(today) }
+    val canMovePrevious = selectedDate > oldestDate
+    val canMoveNext = selectedDate < today
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -45,10 +58,17 @@ fun CallDetailScreen(
             titleColor = MediCareCallTheme.colors.gray10,
         )
         DailyCalendar(
-            date = LocalDate(2026, 3, 17),
-            day = "오늘",
+            date = selectedDate,
+            day = if (selectedDate == today) "오늘" else "",
+            isBackEnabled = canMovePrevious,
+            isNextEnabled = canMoveNext,
             onBack = {
-                onBack()
+                selectedDate = selectedDate.minus(1, DateTimeUnit.DAY)
+                onPrevDate()
+            },
+            onNext = {
+                selectedDate = selectedDate.plus(1, DateTimeUnit.DAY)
+                onNextDate()
             },
         )
         var selectedMeal by remember { mutableStateOf("아침") }
@@ -100,8 +120,9 @@ fun CallDetailScreen(
 @Preview
 @Composable
 private fun CallDetailScreenPreview() {
-    CallDetailScreen() {
-
-    }
-
+    CallDetailScreen(
+        onBack = {},
+        onPrevDate = {},
+        onNextDate = {},
+    )
 }

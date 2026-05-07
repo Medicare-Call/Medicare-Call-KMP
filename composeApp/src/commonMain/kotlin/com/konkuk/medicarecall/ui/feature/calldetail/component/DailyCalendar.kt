@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
 import com.konkuk.medicarecall.resources.ic_leftarrow_date
@@ -36,12 +36,23 @@ fun DailyCalendar(
     day: String,
     onBack: () -> Unit,
     onNext: () -> Unit = {},
-    iconTint: Color = MediCareCallTheme.colors.gray3,
+    isBackEnabled: Boolean = true,
+    isNextEnabled: Boolean = true,
+    enabledIconTint: Color = MediCareCallTheme.colors.gray6,
+    disabledIconTint: Color = MediCareCallTheme.colors.gray1,
     titleTextStyle: TextStyle = MediCareCallTheme.typography.M_16,
     titleColor: Color = MediCareCallTheme.colors.gray6,
     backIcon: Painter = painterResource(Res.drawable.ic_leftarrow_date),
     nextIcon: Painter = painterResource(Res.drawable.ic_rightarrow_date),
 ) {
+    val title = if (day.isBlank()) {
+        "${date.month.number}월 ${date.day}일"
+    } else {
+        "${date.month.number}월 ${date.day}일 ($day)"
+    }
+    val backIconTint = if (isBackEnabled) enabledIconTint else disabledIconTint
+    val nextIconTint = if (isNextEnabled) enabledIconTint else disabledIconTint
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -56,10 +67,10 @@ fun DailyCalendar(
             Icon(
                 modifier = Modifier
                     .size(22.dp)
-                    .clickable { onBack() },
+                    .clickable(enabled = isBackEnabled) { onBack() },
                 painter = backIcon,
                 contentDescription = "leftArrow back",
-                tint = iconTint,
+                tint = backIconTint,
             )
 
             Box(
@@ -67,7 +78,7 @@ fun DailyCalendar(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    text = "${date.month.number}월 ${date.day}일 ($day)",
+                    text = title,
                     style = titleTextStyle,
                     color = titleColor,
                 )
@@ -76,10 +87,10 @@ fun DailyCalendar(
             Icon(
                 modifier = Modifier
                     .size(22.dp)
-                    .clickable { onNext() },
+                    .clickable(enabled = isNextEnabled) { onNext() },
                 painter = nextIcon,
                 contentDescription = "rightArrow next",
-                tint = iconTint,
+                tint = nextIconTint,
             )
         }
         HorizontalDivider(color = MediCareCallTheme.colors.gray1, thickness = 1.dp)
