@@ -49,6 +49,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
 
             // napier Log
             implementation("io.github.aakira:napier:2.7.1")
@@ -160,6 +161,8 @@ compose.resources {
 dependencies {
     // Detekt formatting plugin
     detektPlugins(libs.detekt.formatting)
+
+    add("debugImplementation", compose.uiTooling)
 
     // Firebase (Android only)
     add("androidMainImplementation", platform(libs.firebase.bom))

@@ -27,6 +27,7 @@ import com.konkuk.medicarecall.ui.common.component.CTAButton
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.type.CTAButtonType
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LoginFinishRegisterPreviousScreen(
@@ -84,5 +85,16 @@ fun LoginFinishRegisterPreviousScreen(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun LoginFinishRegisterPreviousScreenPreview() {
+    MediCareCallTheme {
+        LoginFinishRegisterPreviousScreen(
+            navigateToRegister = {},
+            navigateToHome = {},
+        )
     }
 }

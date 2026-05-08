@@ -23,6 +23,7 @@ import com.konkuk.medicarecall.ui.feature.login.elder.viewmodel.LoginElderViewMo
 import com.konkuk.medicarecall.ui.feature.login.myinfo.component.LoginBackButton
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.type.CTAButtonType
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -34,6 +35,31 @@ fun LoginElderRelationScreen(
 ) {
     var isComplete by rememberSaveable { mutableStateOf(false) }
     val scrollState = rememberScrollState()
+    LoginElderRelationScreenContent(
+        modifier = modifier,
+        isComplete = isComplete,
+        scrollState = scrollState,
+        onBack = onBack,
+        onOptionSelect = { newValue ->
+            val rel = Relationship.entries.firstOrNull {
+                it.displayName == newValue
+            } ?: Relationship.ACQUAINTANCE
+            viewModel.updateElderRelationship(rel)
+            isComplete = true
+        },
+        onNextClick = navigateToFinishRegister,
+    )
+}
+
+@Composable
+private fun LoginElderRelationScreenContent(
+    modifier: Modifier = Modifier,
+    isComplete: Boolean,
+    scrollState: androidx.compose.foundation.ScrollState,
+    onBack: () -> Unit,
+    onOptionSelect: (String) -> Unit,
+    onNextClick: () -> Unit,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -55,17 +81,26 @@ fun LoginElderRelationScreen(
             placeHolder = "관계 선택하기",
             category = "어르신과의 관계",
             scrollState,
-            onOptionSelect = { newValue ->
-                val rel = Relationship.entries.firstOrNull {
-                    it.displayName == newValue
-                } ?: Relationship.ACQUAINTANCE
-                isComplete = true
-            },
+            onOptionSelect = onOptionSelect,
         )
         CTAButton(
             type = if (isComplete) CTAButtonType.GREEN else CTAButtonType.DISABLED,
             text = "다음",
-            onClick = navigateToFinishRegister,
+            onClick = onNextClick,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun LoginElderRelationScreenPreview() {
+    MediCareCallTheme {
+        LoginElderRelationScreenContent(
+            isComplete = true,
+            scrollState = rememberScrollState(),
+            onBack = {},
+            onOptionSelect = {},
+            onNextClick = {},
         )
     }
 }

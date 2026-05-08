@@ -23,6 +23,7 @@ import com.konkuk.medicarecall.ui.model.AlarmModel
 import com.konkuk.medicarecall.ui.theme.MediCareCallTheme
 import com.konkuk.medicarecall.ui.type.AlarmActionType
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AlarmScreen(
@@ -88,5 +89,15 @@ fun AlarmScreen(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AlarmScreenPreview() {
+    MediCareCallTheme {
+        AlarmScreen(
+            onBack = {},
+        )
     }
 }
