@@ -34,10 +34,10 @@ fun DateBar(
     onNext: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    val todayString by remember { if (day == LocalDate.now()) mutableStateOf("(오늘)") else mutableStateOf("") }
+    val todayString = remember(day) { if (day == LocalDate.now()) "(오늘)" else "" }
 
     Box(
-        Modifier
+        modifier
             .background(White)
             .border(0.5.dp, MediCareCallTheme.colors.gray1),
     ) {

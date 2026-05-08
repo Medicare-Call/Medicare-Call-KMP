@@ -39,6 +39,7 @@ class HomeViewModel(
 
     fun selectTime(time: MedicationTime) {
         _homeUiState.update { it.copy(selectedTime = time) }
+        // TODO: 나머지 상태 서버에서 가져오기
     }
 
     fun clearUpdatedName() {

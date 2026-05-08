@@ -47,7 +47,12 @@ fun HomeStatusChip(
         }
     }
 
-    Box(Modifier.background(containerColor, RoundedCornerShape(20.dp))) {
-        Text(statusType.title, color = textColor, style = MediCareCallTheme.typography.SB_12, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
+    Box(modifier.background(containerColor, RoundedCornerShape(20.dp))) {
+        Text(
+            statusType.title,
+            color = textColor,
+            style = MediCareCallTheme.typography.SB_12,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+        )
     }
 }
