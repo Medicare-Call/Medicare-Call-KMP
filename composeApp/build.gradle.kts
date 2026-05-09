@@ -163,7 +163,8 @@ dependencies {
     detektPlugins(libs.detekt.formatting)
 
     // Compose preview tooling for Android Studio
-    add("debugImplementation", libs.compose.ui.tooling)
+    add("debugImplementation", "org.jetbrains.compose.ui:ui-tooling:1.10.1")
+    add("debugImplementation", "androidx.compose.ui:ui-tooling:1.10.2")
 
     // Firebase (Android only)
     add("androidMainImplementation", platform(libs.firebase.bom))
