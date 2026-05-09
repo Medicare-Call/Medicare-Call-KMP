@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.konkuk.medicarecall.resources.Res
 import com.konkuk.medicarecall.resources.*
@@ -27,6 +28,8 @@ fun TopAppBar(
     modifier: Modifier = Modifier,
     title: String,
     onBack: () -> Unit,
+    titleTextStyle: TextStyle = MediCareCallTheme.typography.SB_20,
+    titleColor: Color = MediCareCallTheme.colors.gray10,
 ) {
     Column(
         modifier = modifier
@@ -58,8 +61,8 @@ fun TopAppBar(
             ) {
                 Text(
                     text = title,
-                    style = MediCareCallTheme.typography.SB_20,
-                    color = MediCareCallTheme.colors.gray10,
+                    style = titleTextStyle,
+                    color = titleColor,
                 )
             }
             Box(modifier = Modifier.size(24.dp))

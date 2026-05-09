@@ -9,6 +9,8 @@ import com.konkuk.medicarecall.data.repository.ElderIdRepository
 import com.konkuk.medicarecall.data.repository.EldersHealthInfoRepository
 import com.konkuk.medicarecall.data.repository.HomeRepository
 import com.konkuk.medicarecall.domain.model.ElderInfo
+import com.konkuk.medicarecall.domain.model.type.MedicationTime
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,12 +28,19 @@ class HomeViewModel(
     private val eldersHealthInfoRepository: EldersHealthInfoRepository,
     private val elderIdRepository: ElderIdRepository,
 ) : ViewModel() {
+    private val _homeUiState = MutableStateFlow(HomeUiState.EMPTY)
+    val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
     // 이름 업데이트 수신
     private val _updatedName: StateFlow<String?> =
         savedStateHandle.getStateFlow("ELDER_NAME_UPDATED", null)
 
     val updatedName: StateFlow<String?> = _updatedName
+
+    fun selectTime(time: MedicationTime) {
+        _homeUiState.update { it.copy(selectedTime = time) }
+        // TODO: 나머지 상태 서버에서 가져오기
+    }
 
     fun clearUpdatedName() {
         savedStateHandle.remove<String>("ELDER_NAME_UPDATED")
@@ -66,8 +75,6 @@ class HomeViewModel(
     }
 
     // 홈 화면 상태 (isLoading 포함)
-    private val _homeUiState = MutableStateFlow(HomeUiState.EMPTY)
-    val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
     // 어르신 전체 목록
     private val _elderInfoList = MutableStateFlow<List<ElderInfo>>(emptyList())
@@ -87,6 +94,7 @@ class HomeViewModel(
             _selectedElderId.collect { elderId ->
                 if (elderId != -1L) {
                     savedStateHandle[KEY_SELECTED_ELDER_ID] = elderId
+                    elderIdRepository.updateSelectedElderId(elderId)
                     fetchHomeSummaryForToday(elderId)
                 } else {
                     _homeUiState.value = HomeUiState.EMPTY.copy(isLoading = false)
@@ -120,8 +128,14 @@ class HomeViewModel(
             _elderInfoList.value = elderIdMap.map {
                 ElderInfo(elderId = it.key, name = it.value)
             }
+            val currentSelectedId = _selectedElderId.value
+            val sharedSelectedId = elderIdRepository.getSelectedElderId()
             val restoredId = savedStateHandle.get<Long>(KEY_SELECTED_ELDER_ID) ?: -1L
-            if (restoredId != -1L && _elderInfoList.value.any { it.elderId == restoredId }) {
+            if (currentSelectedId != -1L && _elderInfoList.value.any { it.elderId == currentSelectedId }) {
+                _selectedElderId.value = currentSelectedId
+            } else if (sharedSelectedId != -1L && _elderInfoList.value.any { it.elderId == sharedSelectedId }) {
+                _selectedElderId.value = sharedSelectedId
+            } else if (restoredId != -1L && _elderInfoList.value.any { it.elderId == restoredId }) {
                 _selectedElderId.value = restoredId
             } else if (_selectedElderId.value == -1L && _elderInfoList.value.isNotEmpty()) {
                 _selectedElderId.value = _elderInfoList.value.first().elderId
@@ -192,6 +206,7 @@ class HomeViewModel(
         val id = elderIdByName[name] ?: return
 
         if (_selectedElderId.value != id) {
+            savedStateHandle[KEY_SELECTED_ELDER_ID] = id
             _selectedElderId.value = id
         }
     }
