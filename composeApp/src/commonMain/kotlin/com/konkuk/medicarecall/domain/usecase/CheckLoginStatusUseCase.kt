@@ -2,6 +2,7 @@ package com.konkuk.medicarecall.domain.usecase
 
 import com.konkuk.medicarecall.data.repository.ElderIdRepository
 import com.konkuk.medicarecall.data.repository.EldersInfoRepository
+import com.konkuk.medicarecall.data.repository.DataStoreRepository
 import com.konkuk.medicarecall.ui.model.NavigationDestination
 import org.koin.core.annotation.Factory
 import com.konkuk.medicarecall.data.exception.HttpException
@@ -10,6 +11,7 @@ import com.konkuk.medicarecall.data.exception.HttpException
 class CheckLoginStatusUseCase(
     private val eldersInfoRepository: EldersInfoRepository,
     private val elderIdRepository: ElderIdRepository,
+    private val dataStoreRepository: DataStoreRepository,
 ) {
     /**
      * 앱의 초기 상태를 확인하여 다음에 이동할 화면을 결정합니다.
@@ -17,6 +19,13 @@ class CheckLoginStatusUseCase(
      */
     suspend operator fun invoke(): NavigationDestination {
         return runCatching {
+            val accessToken = dataStoreRepository.getAccessToken()
+            val refreshToken = dataStoreRepository.getRefreshToken()
+
+            if (accessToken.isNullOrBlank() || refreshToken.isNullOrBlank()) {
+                return@runCatching NavigationDestination.GoToLogin
+            }
+
             // 1. 어르신 정보 확인
             val elders = eldersInfoRepository.getElders().getOrThrow()
 

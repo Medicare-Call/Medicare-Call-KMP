@@ -14,6 +14,7 @@ import com.konkuk.medicarecall.ui.feature.home.navigation.navigateToHome
 import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginCareCallSetting
 import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginFinish
 import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginPhone
+import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginPromotion
 import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginRegisterElder
 import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginRegisterElderHealth
 import com.konkuk.medicarecall.ui.feature.login.navigation.navigateToLoginRegisterUserInfo
@@ -99,6 +100,7 @@ class MainNavigator(
         navController.navigateToLoginRegisterElderHealth()
     }
 
+
     fun navigateToLoginCareCallSetting() {
         navController.navigateToLoginCareCallSetting(
             navOptions {
@@ -107,6 +109,9 @@ class MainNavigator(
                 }
             },
         )
+    }
+    fun navigateToLoginPromotion() {
+        navController.navigateToLoginPromotion()
     }
 
     fun navigateToLoginFinish() {
@@ -193,9 +198,8 @@ class MainNavigator(
 
     fun navigateToLoginAfterLogout() {
         navController.navigate(Route.LoginStart) {
-            popUpTo(MainTabRoute.Home) { inclusive = true }
+            popUpTo(0) { inclusive = true }
             launchSingleTop = true
-            restoreState = true
         }
     }
 

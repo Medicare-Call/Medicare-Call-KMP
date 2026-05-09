@@ -2,6 +2,7 @@ package com.konkuk.medicarecall.ui.feature.settings.mydata.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.konkuk.medicarecall.data.repository.MemberDeleteRepository
 import com.konkuk.medicarecall.data.repository.UserRepository
 import com.konkuk.medicarecall.domain.model.UserInfo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import org.koin.android.annotation.KoinViewModel
 @KoinViewModel
 class SettingsMyDataViewModel(
     private val userRepository: UserRepository,
+    private val memberDeleteRepository: MemberDeleteRepository,
 ) : ViewModel() {
     fun refresh() = getUserData()
 
@@ -43,6 +45,14 @@ class SettingsMyDataViewModel(
                 .onFailure {
                     it.printStackTrace()
                 }
+        }
+    }
+
+    fun deleteUser(onSuccess: () -> Unit, onError: (Throwable) -> Unit) {
+        viewModelScope.launch {
+            memberDeleteRepository.deleteMember()
+                .onSuccess { onSuccess() }
+                .onFailure { onError(it) }
         }
     }
 }
