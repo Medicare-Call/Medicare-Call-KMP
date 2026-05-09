@@ -21,6 +21,15 @@ class ElderIdRepositoryImpl(
         elderIdDataStore.updateData { it.copy(elderIds = it.elderIds.plus(elderId to name)) }
     }
 
+    override suspend fun updateSelectedElderId(elderId: Long) {
+        elderIdDataStore.updateData { it.copy(selectedElderId = elderId) }
+    }
+
+    override suspend fun getSelectedElderId(): Long {
+        val preferences = elderIdDataStore.data.first()
+        return preferences.selectedElderId
+    }
+
     override suspend fun getElderIds(): Map<Long, String> {
         val preferences = elderIdDataStore.data.map { it.elderIds }
         return preferences.first()
@@ -28,7 +37,7 @@ class ElderIdRepositoryImpl(
 
     override suspend fun clearElderIds() {
         elderIdDataStore.updateData {
-            ElderIds(elderIds = emptyMap())
+            ElderIds(elderIds = emptyMap(), selectedElderId = -1L)
         }
     }
 }
