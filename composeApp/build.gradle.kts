@@ -49,6 +49,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
             implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.1")
 
             // napier Log
@@ -164,7 +165,6 @@ dependencies {
 
     // Compose preview tooling for Android Studio
     add("debugImplementation", "org.jetbrains.compose.ui:ui-tooling:1.10.1")
-    add("debugImplementation", "androidx.compose.ui:ui-tooling:1.10.2")
 
     // Firebase (Android only)
     add("androidMainImplementation", platform(libs.firebase.bom))
