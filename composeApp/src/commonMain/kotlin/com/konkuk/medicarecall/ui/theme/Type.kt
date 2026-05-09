@@ -54,11 +54,12 @@ data class MediCareCallTypography(
     val R_16: TextStyle,
 
     // Caption
+    val SB_15: TextStyle,
     val R_15: TextStyle,
     val SB_14: TextStyle,
     val R_14: TextStyle,
     val M_12: TextStyle,
-
+    val SB_12: TextStyle,
 )
 
 @Composable
@@ -165,6 +166,11 @@ fun createMediCareCallTypography(): MediCareCallTypography {
         ),
 
         // Caption
+        SB_15 = TextStyle(
+            fontFamily = semiBold,
+            fontSize = 15.sp,
+            lineHeight = 1.6.em,
+        ),
         R_15 = TextStyle(
             fontFamily = regular,
             fontSize = 15.sp,
@@ -185,6 +191,12 @@ fun createMediCareCallTypography(): MediCareCallTypography {
         ),
         M_12 = TextStyle(
             fontFamily = regular,
+            fontSize = 12.sp,
+            lineHeight = 1.5.em,
+            letterSpacing = (0.01).em,
+        ),
+        SB_12 = TextStyle(
+            fontFamily = semiBold,
             fontSize = 12.sp,
             lineHeight = 1.5.em,
             letterSpacing = (0.01).em,
@@ -210,10 +222,13 @@ val defaultMediCareCallTypography = MediCareCallTypography(
     M_16 = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Medium, lineHeight = 1.6.em),
     R_16 = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Normal, lineHeight = 1.6.em),
     R_15 = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Normal, lineHeight = 1.5.em, letterSpacing = (0.01).em),
+    SB_15 = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, lineHeight = 1.5.em),
     SB_14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, lineHeight = 1.5.em, letterSpacing = (0.01).em),
     R_14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Normal, lineHeight = 1.5.em, letterSpacing = (0.01).em),
     M_12 = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Normal, lineHeight = 1.5.em, letterSpacing = (0.01).em),
-    )
+    SB_12 = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, lineHeight = 1.5.em, letterSpacing = (0.01).em),
+)
+
 
 val LocalMedicareCallTypographyProvider = staticCompositionLocalOf { defaultMediCareCallTypography }
 
