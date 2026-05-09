@@ -87,6 +87,7 @@ class HomeViewModel(
             _selectedElderId.collect { elderId ->
                 if (elderId != -1L) {
                     savedStateHandle[KEY_SELECTED_ELDER_ID] = elderId
+                    elderIdRepository.updateSelectedElderId(elderId)
                     fetchHomeSummaryForToday(elderId)
                 } else {
                     _homeUiState.value = HomeUiState.EMPTY.copy(isLoading = false)
@@ -120,8 +121,14 @@ class HomeViewModel(
             _elderInfoList.value = elderIdMap.map {
                 ElderInfo(elderId = it.key, name = it.value)
             }
+            val currentSelectedId = _selectedElderId.value
+            val sharedSelectedId = elderIdRepository.getSelectedElderId()
             val restoredId = savedStateHandle.get<Long>(KEY_SELECTED_ELDER_ID) ?: -1L
-            if (restoredId != -1L && _elderInfoList.value.any { it.elderId == restoredId }) {
+            if (currentSelectedId != -1L && _elderInfoList.value.any { it.elderId == currentSelectedId }) {
+                _selectedElderId.value = currentSelectedId
+            } else if (sharedSelectedId != -1L && _elderInfoList.value.any { it.elderId == sharedSelectedId }) {
+                _selectedElderId.value = sharedSelectedId
+            } else if (restoredId != -1L && _elderInfoList.value.any { it.elderId == restoredId }) {
                 _selectedElderId.value = restoredId
             } else if (_selectedElderId.value == -1L && _elderInfoList.value.isNotEmpty()) {
                 _selectedElderId.value = _elderInfoList.value.first().elderId
@@ -192,6 +199,7 @@ class HomeViewModel(
         val id = elderIdByName[name] ?: return
 
         if (_selectedElderId.value != id) {
+            savedStateHandle[KEY_SELECTED_ELDER_ID] = id
             _selectedElderId.value = id
         }
     }
